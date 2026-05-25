@@ -14,7 +14,7 @@ formation, world modeling, semantic interpretation, or optimization.
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 import csv
 import hashlib
 import json
@@ -25,6 +25,7 @@ from typing import Any, Literal
 LifecyclePhase = Literal["initialized", "running", "finished", "failed", "reset"]
 
 _SAFETY_FALLBACK_PLACEHOLDER = "__SAFETY_FALLBACK__"
+"""Single structural fallback token used whenever parsing cannot find an action."""
 
 
 @dataclass(frozen=True)
@@ -163,6 +164,7 @@ class ActionParser:
     """Strict structural parser with single safe fallback action."""
 
     def reset(self, episode_id: str, seed: int) -> ResetEvent:
+        """Return reset metadata only; parser holds no mutable per-episode state."""
         return ResetEvent(episode_id=episode_id, seed=seed)
 
     def parse(self, candidate: str | dict[str, Any] | None) -> ParsedAction:
@@ -212,6 +214,7 @@ class EvaluationLogger:
         self.csv_path = self.output_dir / "evaluation_summary.csv"
 
     def reset(self, episode_id: str, seed: int) -> ResetEvent:
+        """Return reset metadata only; logger does not mutate persistent episode state."""
         return ResetEvent(episode_id=episode_id, seed=seed)
 
     def log(self, entry: ReplayEntry) -> None:
@@ -228,6 +231,12 @@ class EvaluationLogger:
 
 
 def _safe_size(value: Any) -> int:
+    """Return a deterministic structural size for envelope metadata.
+
+    This is intentionally shallow and semantic-free: for common collection/string
+    types, use ``len(value)``; for all other payloads, emit ``1`` as a stable
+    placeholder unit size.
+    """
     if isinstance(value, (str, bytes, list, tuple, dict, set)):
         return len(value)
     return 1
