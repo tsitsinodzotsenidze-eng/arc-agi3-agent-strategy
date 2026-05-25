@@ -59,6 +59,10 @@ def test_action_parser_uses_fixed_fallback_for_invalid_inputs():
     assert parsed_missing.action == "__SAFETY_FALLBACK__"
     assert parsed_missing.used_fallback
 
+    parsed_none = parser.parse(None)
+    assert parsed_none.action == "__SAFETY_FALLBACK__"
+    assert parsed_none.used_fallback
+
 
 def test_replay_digest_is_deterministic_for_same_entries():
     replay_a = ReplayAudit()
