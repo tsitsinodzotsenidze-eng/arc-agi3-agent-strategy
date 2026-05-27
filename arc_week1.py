@@ -240,3 +240,4 @@ def _safe_size(value: Any) -> int:
     if isinstance(value, (str, bytes, list, tuple, dict, set)):
         return len(value)
     return 1
+
