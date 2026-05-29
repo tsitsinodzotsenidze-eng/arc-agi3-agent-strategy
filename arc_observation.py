@@ -1,4 +1,4 @@
-"""Week 2 Day 1 observation + environment interface scaffold.
+"""Week 2 observation + environment interface scaffold.
 
 This module provides structural observation intake, metadata validation,
 and replay-compatible observation transport. It is intentionally semantic-free
@@ -74,23 +74,36 @@ class EnvironmentObserver:
 
     def observe(self, episode_id: str, step_index: int) -> ObservationRecord:
         # Trust boundary:
-        # - keep upstream episode_id/step_index/source_label as transport metadata only
+        # - require the upstream environment to return the established observation
+        #   transport shape; malformed returns fail before any replay/action path exists.
+        # - keep upstream episode_id/step_index/source_label as strict transport metadata
         #   (source_label is provenance only, never a gameplay/evaluator hint).
+        # - require upstream episode_id/step_index to exactly match the caller request.
         # - never trust upstream structural metadata fields; recompute canonical
         #   observation_type/summary_size/summary_keys from raw_observation.
+        # - invalid observations raise ValueError; there is no fallback action, semantic
+        #   inference, memory update, or gameplay behavior in this boundary.
         # - raw_observation serializability is intentionally out of scope for this scaffold.
         upstream = self.environment.observe(episode_id, step_index)
+        if not isinstance(upstream, ObservationRecord):
+            raise ValueError("environment.observe must return an ObservationRecord")
+
+        if upstream.episode_id != episode_id:
+            raise ValueError("upstream episode_id must match requested episode_id")
+        if upstream.step_index != step_index:
+            raise ValueError("upstream step_index must match requested step_index")
+
         validate_observation_metadata(
             episode_id=upstream.episode_id,
             step_index=upstream.step_index,
-            source_label=upstream.source_label or self.source_label,
+            source_label=upstream.source_label,
         )
         validate_observation_shape(upstream.raw_observation)
         return ObservationRecord.create(
             episode_id=upstream.episode_id,
             step_index=upstream.step_index,
             raw_observation=upstream.raw_observation,
-            source_label=upstream.source_label or self.source_label,
+            source_label=upstream.source_label,
         )
 
     @staticmethod
@@ -115,15 +128,58 @@ class EnvironmentObserver:
 def validate_observation_metadata(*, episode_id: str, step_index: int, source_label: str) -> None:
     if not isinstance(episode_id, str) or not episode_id.strip():
         raise ValueError("episode_id must be a non-empty string")
-    if not isinstance(step_index, int) or step_index < 0:
+    if type(step_index) is not int or step_index < 0:
         raise ValueError("step_index must be a non-negative integer")
     if not isinstance(source_label, str) or not source_label.strip():
         raise ValueError("source_label must be a non-empty string")
 
 
 def validate_observation_shape(raw_observation: Any) -> None:
-    if raw_observation is None:
-        raise ValueError("raw_observation must not be None")
+    """Validate that a raw observation is structural data only.
+
+    This intentionally checks shape, not meaning: accepted values are simple
+    structural scalars and containers. Invalid values fail deterministically with
+    ValueError instead of falling back to any action or inferred behavior.
+    """
+    _validate_structural_value(raw_observation, path="raw_observation", seen=set())
+
+
+# Restricted to JSON-serializable structural types for observation lifecycle safety; replay/logging remains out of scope.
+def _validate_structural_value(value: Any, *, path: str, seen: set[int]) -> None:
+    if value is None:
+        return
+
+    if isinstance(value, (bool, int, float, str)):
+        return
+
+    if isinstance(value, dict):
+        value_id = id(value)
+        if value_id in seen:
+            raise ValueError(f"{path} must not contain cyclic references")
+        seen.add(value_id)
+        for key, nested_value in value.items():
+            if key is None:
+                raise ValueError(f"{path} dict keys must not be None")
+            if not isinstance(key, (bool, int, float, str)):
+                raise ValueError(f"{path} dict keys must be structural scalar values")
+            _validate_structural_value(nested_value, path=f"{path}[{key!r}]", seen=seen)
+        seen.remove(value_id)
+        return
+
+    if isinstance(value, (list, tuple)):
+        value_id = id(value)
+        if value_id in seen:
+            raise ValueError(f"{path} must not contain cyclic references")
+        seen.add(value_id)
+        for index, nested_value in enumerate(value):
+            _validate_structural_value(nested_value, path=f"{path}[{index}]", seen=seen)
+        seen.remove(value_id)
+        return
+
+    raise ValueError(
+        f"{path} must be JSON-like structural data "
+        "(None, dict, list, tuple, str, int, float, or bool)"
+    )
 
 
 def _summary_keys(raw_observation: Any) -> tuple[str, ...]:
@@ -133,6 +189,6 @@ def _summary_keys(raw_observation: Any) -> tuple[str, ...]:
 
 
 def _safe_size(value: Any) -> int:
-    if isinstance(value, (str, bytes, list, tuple, dict, set)):
+    if isinstance(value, (str, list, tuple, dict)):
         return len(value)
     return 1
