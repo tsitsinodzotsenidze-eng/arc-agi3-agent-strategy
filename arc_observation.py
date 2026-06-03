@@ -73,6 +73,7 @@ class EnvironmentObserver:
         return self.environment.reset(episode_id, seed)
 
     def observe(self, episode_id: str, step_index: int) -> ObservationRecord:
+        validate_observation_step_index(step_index)
         # Trust boundary:
         # - require the upstream environment to return the established observation
         #   transport shape; malformed returns fail before any replay/action path exists.
@@ -90,7 +91,7 @@ class EnvironmentObserver:
 
         if upstream.episode_id != episode_id:
             raise ValueError("upstream episode_id must match requested episode_id")
-        if upstream.step_index != step_index:
+        if type(upstream.step_index) is not type(step_index) or upstream.step_index != step_index:
             raise ValueError("upstream step_index must match requested step_index")
 
         validate_observation_metadata(
@@ -128,10 +129,14 @@ class EnvironmentObserver:
 def validate_observation_metadata(*, episode_id: str, step_index: int, source_label: str) -> None:
     if not isinstance(episode_id, str) or not episode_id.strip():
         raise ValueError("episode_id must be a non-empty string")
-    if type(step_index) is not int or step_index < 0:
-        raise ValueError("step_index must be a non-negative integer")
+    validate_observation_step_index(step_index)
     if not isinstance(source_label, str) or not source_label.strip():
         raise ValueError("source_label must be a non-empty string")
+
+
+def validate_observation_step_index(step_index: int) -> None:
+    if type(step_index) is not int or step_index < 0:
+        raise ValueError("step_index must be a non-negative integer")
 
 
 def validate_observation_shape(raw_observation: Any) -> None:

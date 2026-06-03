@@ -21,6 +21,23 @@ class _FakeEnvironment:
         )
 
 
+class _TrackingEnvironment:
+    def __init__(self) -> None:
+        self.observe_calls = 0
+
+    def reset(self, episode_id: str, seed: int):
+        return None
+
+    def observe(self, episode_id: str, step_index: int) -> ObservationRecord:
+        self.observe_calls += 1
+        return ObservationRecord.create(
+            episode_id=episode_id,
+            step_index=step_index,
+            raw_observation={"pixels": [[1]]},
+            source_label="tracking_env",
+        )
+
+
 class _SpoofedMetadataEnvironment:
     raw_observation = {"b": 2, "a": 1}
     spoofed_observation_type = "list"
@@ -159,6 +176,27 @@ def test_invalid_observation_shape_and_metadata_raise_value_error():
 
     with pytest.raises(ValueError):
         validate_observation_metadata(episode_id="ep", step_index=0, source_label="")
+
+
+def test_environment_observer_valid_integer_step_index_passes():
+    environment = _TrackingEnvironment()
+    observer = EnvironmentObserver(environment)
+
+    record = observer.observe("ep-request-step", 1)
+
+    assert record.step_index == 1
+    assert environment.observe_calls == 1
+
+
+@pytest.mark.parametrize("step_index", [True, False, 1.0, "1", "01", "+1", "1.0", -1])
+def test_environment_observer_rejects_non_integer_requested_step_index_before_environment_call(step_index):
+    environment = _TrackingEnvironment()
+    observer = EnvironmentObserver(environment)
+
+    with pytest.raises(ValueError, match="step_index"):
+        observer.observe("ep-request-step", step_index)
+
+    assert environment.observe_calls == 0
 
 
 def test_environment_observer_generates_replay_compatible_entries():
