@@ -10,6 +10,7 @@ from arc_week1 import (
     ResetManager,
     Scorecard,
     EvidencePacket,
+    _safe_size,
 )
 
 
@@ -38,6 +39,20 @@ def test_observation_and_evidence_are_structural_only():
     assert evidence.observation_type == "dict"
     assert evidence.observation_size == 2
     assert evidence.payload is payload
+
+
+def test_safe_size_uses_only_json_like_structural_container_lengths():
+    assert _safe_size("abc") == 3
+    assert _safe_size([1, 2, 3]) == 3
+    assert _safe_size((1, 2)) == 2
+    assert _safe_size({"a": 1, "b": 2}) == 2
+
+    assert _safe_size(b"abc") == 1
+    assert _safe_size({1, 2, 3}) == 1
+
+    assert _safe_size(7) == 1
+    assert _safe_size(None) == 1
+    assert _safe_size(3.14) == 1
 
 
 def test_action_parser_uses_fixed_fallback_for_invalid_inputs():
