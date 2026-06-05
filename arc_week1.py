@@ -237,7 +237,7 @@ def _safe_size(value: Any) -> int:
     types, use ``len(value)``; for all other payloads, emit ``1`` as a stable
     placeholder unit size.
     """
-    if isinstance(value, (str, bytes, list, tuple, dict, set)):
+    if isinstance(value, (str, list, tuple, dict)):
         return len(value)
     return 1
 
