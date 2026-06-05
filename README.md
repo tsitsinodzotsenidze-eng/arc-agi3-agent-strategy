@@ -4,7 +4,9 @@ This repository is an early ARC-AGI-3 agent foundation focused on safety contrac
 
 ## Current status
 
-Implemented scope is limited to:
+Implemented scope is limited to safety/contracts infrastructure plus an observation/interface scaffold. The repository validates and records reset, action, lifecycle, replay, audit, and observation transport boundaries; it does not implement planner logic, solver behavior, strategy, memory, model inference, hidden evaluator assumptions, Undo/`ACTION7` logic, or gameplay intelligence.
+
+Completed repository-level scope includes:
 
 - Week 1 safety/contracts infrastructure:
   - deterministic reset and seed handling;
@@ -12,14 +14,17 @@ Implemented scope is limited to:
   - strict action parsing with a fixed safety fallback;
   - per-episode lifecycle bookkeeping;
   - deterministic replay records;
-  - local JSONL/CSV audit logging.
-- Week 2 Day 1 observation-only environment interface scaffold:
-  - minimal environment protocol;
-  - observation metadata validation;
-  - canonical structural metadata recomputation;
-  - replay-compatible observation records using an observation-only sentinel.
+  - local JSONL/CSV audit logging;
+- Week 2 observation lifecycle hardening:
+  - observation-only environment interface scaffold with a minimal environment protocol and replay-compatible observation records using an observation-only sentinel;
+  - stricter observation metadata validation, including rejection of invalid requested `step_index` values before environment calls;
+  - type-strict upstream observation identity matching for requested `episode_id` and `step_index`;
+  - JSON-like structural-only `raw_observation` validation that rejects non-structural values such as `bytes`, `set`, arbitrary objects, and cyclic structures at the observation boundary;
+  - canonical structural metadata recomputation from `raw_observation` instead of trusting upstream-provided summaries;
+  - documentation-only observation JSONL/replay compatibility notes;
+  - Week 1 `_safe_size()` consistency cleanup so only `str`, `list`, `tuple`, and `dict` are treated as sized containers, while `bytes`, `set`, scalar-like values, and other unsupported values fall through to the stable placeholder size `1`.
 
-The observation interface is designed to validate and record environment observations while keeping agent intelligence out of scope at this stage. Observation payloads are treated structurally; the scaffold does not infer semantics, choose actions, or implement gameplay behavior.
+Observation payloads are treated structurally. The observation boundary validates metadata and structural shape, records provenance, and recomputes structural summaries without inferring semantics, choosing actions, or adding gameplay behavior.
 
 ## Week 2 Day 3 observation JSONL/replay compatibility notes
 
