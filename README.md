@@ -1,6 +1,37 @@
 # ARC-AGI-3 Agent Strategy
 
-This repository is an early ARC-AGI-3 agent foundation focused on safety contracts and observation transport. It is intended to make reset behavior, observation records, replay/audit rows, and environment-facing interfaces explicit before any agent intelligence is added.
+ARC-AGI-3 Agent Strategy is a multi-phase research and engineering programme for an agent that must operate in novel, changing, and partially uncertain interactive environments. Its long-term architecture is organised around evidence-grounded observation, structural interpretation, bounded hypothesis management, planning, action selection, causal traceability, plan revision, and recovery when conditions, evidence, or prior assumptions change. This repository contains the implemented safety and observation foundation together with the public architecture and governance record. It does not yet implement solver, planner, memory, model inference, or gameplay intelligence.
+
+## Seven structured ARC-AGI-3 work weeks
+
+### Week 1 — Safety and contract foundations
+Established the first implemented foundation for controlled reset/lifecycle behaviour, strict action handling, audit visibility, deterministic replay, and explicit boundaries between environment-facing data and later intelligence.
+
+### Week 2 — Observation and environment-interface foundation
+Extended the implemented foundation with a structural observation boundary, provenance-aware transport, validation/recomputation rules, and replay-compatible observation records.
+
+### Week 3 — Adaptive-agent architecture foundations
+Developed the core architectural concepts required for behaviour in changing interactive environments: evidence interpretation, safe baseline control loop, action history with causal tracing, bounded hypothesis and planning structures, information-gain discipline, recovery mechanisms, and explicit cross-layer contracts and review gates.
+
+### Week 4 — Platform formation and architecture-to-code readiness
+Turned the architecture toward implementation readiness through platform formation, source and file inventory work, architecture-to-code contract definition, and explicit verification of what must be true before code-bearing work can be considered.
+
+### Week 5 — Evidence mapping and governance hardening
+Mapped unresolved evidence gates and dependency relationships. Produced multiple corrective governance records to restore documentary completeness and re-establish clean before-evidence and opening-gate discipline after a pause boundary.
+
+### Week 6 — Controlled write-route qualification design
+Designed a bounded, human-controlled, externally auditable candidate route for future implementation qualification while maintaining strict separation between evidence design, route governance, and any later implementation decision.
+
+### Week 7 — Adaptive milestone response
+When the initially planned execution route could not meet the project’s evidence requirements, the project kept the candidate in quarantine, isolated the uncertainty, and designed a governed first-stage alternative pathway. Any future implementation decision remains subject to fresh evidence capture and separate qualification.
+
+## Milestone update — adaptive strategy under changing conditions
+
+When the initially planned execution route could not meet the project’s evidence requirements, we did not lower the standard or manufacture activity to meet a deadline. Instead, we treated the constraint itself as a new problem of adaptation and control.
+
+This response is aligned with the central ARC-AGI-3 challenge: operating when conditions change and the next problem no longer matches earlier assumptions. Instead of forcing a compromised path, the project preserved the candidate under quarantine and designed a governed, evidence-first alternative pathway. That pathway requires fresh evidence capture and separate qualification before any implementation decision.
+
+This milestone does not claim qualification of the pathway or release of the candidate. It records a disciplined adaptive result: the constraint was converted into a bounded, auditable next step without compromising the integrity of the work.
 
 ## Current status
 
