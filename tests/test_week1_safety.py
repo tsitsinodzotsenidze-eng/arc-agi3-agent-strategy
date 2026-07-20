@@ -1,15 +1,22 @@
 import csv
 import json
+from dataclasses import FrozenInstanceError
+from unittest.mock import Mock
+
+import pytest
 
 from arc_week1 import (
     ActionParser,
+    AuditReadAuthority,
     EvaluationLogger,
     ObservationEnvelope,
     ReplayAudit,
+    ReplayAuditOwner,
     ReplayEntry,
     ResetManager,
     Scorecard,
     EvidencePacket,
+    _create_replay_audit,
     _safe_size,
 )
 
@@ -80,8 +87,8 @@ def test_action_parser_uses_fixed_fallback_for_invalid_inputs():
 
 
 def test_replay_digest_is_deterministic_for_same_entries():
-    replay_a = ReplayAudit()
-    replay_b = ReplayAudit()
+    replay_a, owner_a = _create_replay_audit()
+    replay_b, owner_b = _create_replay_audit()
 
     for replay in (replay_a, replay_b):
         replay.reset("ep-1", 7)
@@ -101,7 +108,128 @@ def test_replay_digest_is_deterministic_for_same_entries():
             )
         )
 
-    assert replay_a.digest() == replay_b.digest()
+    authority_a = owner_a.grant_read_authority()
+    authority_b = owner_b.grant_read_authority()
+    assert replay_a.digest(authority_a) == replay_b.digest(authority_b)
+
+
+def _replay_entry(*, step_index=0):
+    return ReplayEntry(
+        episode_id="ep-read",
+        seed=17,
+        step_index=step_index,
+        lifecycle="running",
+        reset_event=step_index == 0,
+        raw_action_text="STRUCTURAL_TOKEN_A",
+        parsed_action="STRUCTURAL_TOKEN_A",
+        used_fallback=False,
+        observation_type="dict",
+        observation_size=1,
+        status_note="ok",
+    )
+
+
+def test_replay_audit_factory_creates_audit_and_separate_owner():
+    replay, owner = _create_replay_audit()
+
+    assert isinstance(replay, ReplayAudit)
+    assert isinstance(owner, ReplayAuditOwner)
+    with pytest.raises(TypeError, match="_create_replay_audit"):
+        ReplayAudit()
+    with pytest.raises(TypeError, match="no public constructor"):
+        ReplayAuditOwner()
+
+
+def test_replay_entries_require_valid_authority_and_return_immutable_snapshot():
+    replay, owner = _create_replay_audit()
+    replay.append(_replay_entry())
+    authority = owner.grant_read_authority()
+
+    snapshot = replay.entries(authority)
+    replay.append(_replay_entry(step_index=1))
+
+    assert snapshot == (_replay_entry(),)
+    assert isinstance(snapshot, tuple)
+    assert replay.entries(authority) == (_replay_entry(), _replay_entry(step_index=1))
+
+
+def test_replay_authority_is_typed_audit_bound_and_immutable():
+    replay, owner = _create_replay_audit()
+    authority = owner.grant_read_authority()
+
+    assert isinstance(authority, AuditReadAuthority)
+    with pytest.raises(TypeError, match="no public constructor"):
+        AuditReadAuthority()
+    with pytest.raises(FrozenInstanceError):
+        authority._token = object()
+    assert replay.entries(authority) == ()
+
+
+@pytest.mark.parametrize("invalid_authority", [None, True, False, "token", object()])
+def test_replay_reads_reject_missing_boolean_string_and_untyped_authority(invalid_authority):
+    replay, _ = _create_replay_audit()
+
+    with pytest.raises(PermissionError, match="authority"):
+        replay.entries(invalid_authority)
+    with pytest.raises(PermissionError, match="authority"):
+        replay.digest(invalid_authority)
+
+
+def test_replay_reads_reject_lookalike_and_field_identical_forged_authority():
+    replay, owner = _create_replay_audit()
+    authority = owner.grant_read_authority()
+    lookalike = Mock(spec=AuditReadAuthority)
+    forged = object.__new__(AuditReadAuthority)
+    object.__setattr__(forged, "_audit_instance_id", authority._audit_instance_id)
+    object.__setattr__(forged, "_token", authority._token)
+
+    for invalid_authority in (lookalike, forged):
+        with pytest.raises(PermissionError, match="authority"):
+            replay.entries(invalid_authority)
+        with pytest.raises(PermissionError, match="authority"):
+            replay.digest(invalid_authority)
+
+
+def test_replay_reads_reject_cross_audit_authority():
+    replay_a, owner_a = _create_replay_audit()
+    replay_b, _ = _create_replay_audit()
+    authority_a = owner_a.grant_read_authority()
+
+    with pytest.raises(PermissionError, match="authority"):
+        replay_b.entries(authority_a)
+    with pytest.raises(PermissionError, match="authority"):
+        replay_b.digest(authority_a)
+
+
+def test_replay_reads_reject_revoked_authority():
+    replay, owner = _create_replay_audit()
+    authority = owner.grant_read_authority()
+    assert replay.entries(authority) == ()
+
+    owner.revoke_read_authority(authority)
+
+    with pytest.raises(PermissionError, match="authority"):
+        replay.entries(authority)
+    with pytest.raises(PermissionError, match="authority"):
+        replay.digest(authority)
+
+
+def test_denied_replay_reads_disclose_nothing_compute_no_digest_and_do_not_mutate(monkeypatch):
+    replay, owner = _create_replay_audit()
+    replay.append(_replay_entry())
+    valid_authority = owner.grant_read_authority()
+    before = replay.entries(valid_authority)
+
+    def fail_json_dumps(*args, **kwargs):
+        raise AssertionError("digest serialization must not run without authority")
+
+    monkeypatch.setattr("arc_week1.json.dumps", fail_json_dumps)
+    with pytest.raises(PermissionError, match="authority"):
+        replay.entries(None)
+    with pytest.raises(PermissionError, match="authority"):
+        replay.digest(None)
+
+    assert replay.entries(valid_authority) == before
 
 
 def test_evaluation_logger_writes_jsonl_and_csv_schema(tmp_path):
