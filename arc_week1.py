@@ -14,8 +14,9 @@ formation, world modeling, semantic interpretation, or optimization.
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import InitVar, asdict, dataclass
 import csv
+from enum import Enum
 import hashlib
 import json
 import random
@@ -24,8 +25,25 @@ from typing import Any, Literal
 
 LifecyclePhase = Literal["initialized", "running", "finished", "failed", "reset"]
 
-_SAFETY_FALLBACK_PLACEHOLDER = "__SAFETY_FALLBACK__"
-"""Single structural fallback token used whenever parsing cannot find an action."""
+
+class RouteKind(Enum):
+    """Authoritative typed route for action, fallback, and observation-only rows."""
+
+    ACTION = "ACTION"
+    FALLBACK = "FALLBACK"
+    OBSERVATION_ONLY = "OBSERVATION_ONLY"
+
+
+_RESERVED_TOKEN_BY_ROUTE = {
+    RouteKind.FALLBACK: "__SAFETY_FALLBACK__",
+    RouteKind.OBSERVATION_ONLY: "__OBSERVATION_ONLY__",
+}
+"""Single source of truth for internal reserved routing-token spellings."""
+
+_SAFETY_FALLBACK_PLACEHOLDER = _RESERVED_TOKEN_BY_ROUTE[RouteKind.FALLBACK]
+_OBSERVATION_ONLY_PLACEHOLDER = _RESERVED_TOKEN_BY_ROUTE[RouteKind.OBSERVATION_ONLY]
+_RESERVED_ROUTE_TOKENS = frozenset(_RESERVED_TOKEN_BY_ROUTE.values())
+_ROUTE_FACTORY_KEY = object()
 
 
 @dataclass(frozen=True)
@@ -86,8 +104,50 @@ class EvidencePacket:
 class ParsedAction:
     raw_action_text: str | None
     action: str
+    route: RouteKind
     used_fallback: bool
     note: str
+    _factory_key: InitVar[object] = None
+
+    def __post_init__(self, _factory_key: object) -> None:
+        if _factory_key is not _ROUTE_FACTORY_KEY:
+            raise PermissionError("ParsedAction route construction is factory-only")
+        if self.route is RouteKind.OBSERVATION_ONLY:
+            raise ValueError("ParsedAction cannot carry an observation-only route")
+        _validate_route_state(route=self.route, action=self.action, used_fallback=self.used_fallback)
+
+    @classmethod
+    def from_ordinary_action(
+        cls,
+        *,
+        raw_action_text: str | None,
+        action: str,
+        note: str = "structurally_present",
+    ) -> "ParsedAction":
+        return cls(
+            raw_action_text=raw_action_text,
+            action=action,
+            route=RouteKind.ACTION,
+            used_fallback=False,
+            note=note,
+            _factory_key=_ROUTE_FACTORY_KEY,
+        )
+
+    @classmethod
+    def _from_internal_fallback(
+        cls,
+        *,
+        raw_action_text: str | None,
+        note: str,
+    ) -> "ParsedAction":
+        return cls(
+            raw_action_text=raw_action_text,
+            action=_SAFETY_FALLBACK_PLACEHOLDER,
+            route=RouteKind.FALLBACK,
+            used_fallback=True,
+            note=note,
+            _factory_key=_ROUTE_FACTORY_KEY,
+        )
 
 
 @dataclass
@@ -114,10 +174,166 @@ class ReplayEntry:
     reset_event: bool
     raw_action_text: str | None
     parsed_action: str
+    route: RouteKind
     used_fallback: bool
     observation_type: str
     observation_size: int
     status_note: str = ""
+    _factory_key: InitVar[object] = None
+
+    def __post_init__(self, _factory_key: object) -> None:
+        if _factory_key is not _ROUTE_FACTORY_KEY:
+            raise PermissionError("ReplayEntry route construction is factory-only")
+        _validate_route_state(route=self.route, action=self.parsed_action, used_fallback=self.used_fallback)
+        if self.route is RouteKind.OBSERVATION_ONLY and self.raw_action_text is not None:
+            raise ValueError("OBSERVATION_ONLY requires raw_action_text=None")
+
+    @classmethod
+    def from_ordinary_action(
+        cls,
+        *,
+        episode_id: str,
+        seed: int,
+        step_index: int,
+        lifecycle: LifecyclePhase,
+        reset_event: bool,
+        raw_action_text: str | None,
+        parsed_action: str,
+        observation_type: str,
+        observation_size: int,
+        status_note: str = "",
+    ) -> "ReplayEntry":
+        return cls(
+            episode_id=episode_id,
+            seed=seed,
+            step_index=step_index,
+            lifecycle=lifecycle,
+            reset_event=reset_event,
+            raw_action_text=raw_action_text,
+            parsed_action=parsed_action,
+            route=RouteKind.ACTION,
+            used_fallback=False,
+            observation_type=observation_type,
+            observation_size=observation_size,
+            status_note=status_note,
+            _factory_key=_ROUTE_FACTORY_KEY,
+        )
+
+    @classmethod
+    def _from_internal_fallback(
+        cls,
+        *,
+        episode_id: str,
+        seed: int,
+        step_index: int,
+        lifecycle: LifecyclePhase,
+        reset_event: bool,
+        raw_action_text: str | None,
+        observation_type: str,
+        observation_size: int,
+        status_note: str = "",
+    ) -> "ReplayEntry":
+        return cls(
+            episode_id=episode_id,
+            seed=seed,
+            step_index=step_index,
+            lifecycle=lifecycle,
+            reset_event=reset_event,
+            raw_action_text=raw_action_text,
+            parsed_action=_SAFETY_FALLBACK_PLACEHOLDER,
+            route=RouteKind.FALLBACK,
+            used_fallback=True,
+            observation_type=observation_type,
+            observation_size=observation_size,
+            status_note=status_note,
+            _factory_key=_ROUTE_FACTORY_KEY,
+        )
+
+    @classmethod
+    def from_observation_only(
+        cls,
+        *,
+        episode_id: str,
+        seed: int,
+        step_index: int,
+        lifecycle: LifecyclePhase,
+        reset_event: bool,
+        observation_type: str,
+        observation_size: int,
+        status_note: str = "",
+    ) -> "ReplayEntry":
+        return cls(
+            episode_id=episode_id,
+            seed=seed,
+            step_index=step_index,
+            lifecycle=lifecycle,
+            reset_event=reset_event,
+            raw_action_text=None,
+            parsed_action=_OBSERVATION_ONLY_PLACEHOLDER,
+            route=RouteKind.OBSERVATION_ONLY,
+            used_fallback=False,
+            observation_type=observation_type,
+            observation_size=observation_size,
+            status_note=status_note,
+            _factory_key=_ROUTE_FACTORY_KEY,
+        )
+
+
+def _reserved_token_collision(token: str) -> str | None:
+    """Classify only the finite reserved-token collision set."""
+    if token in _RESERVED_ROUTE_TOKENS:
+        return "exact"
+    if token.isascii() and any(token.lower() == reserved.lower() for reserved in _RESERVED_ROUTE_TOKENS):
+        return "near_miss"
+    if any(_is_single_edit_apart(token, reserved) for reserved in _RESERVED_ROUTE_TOKENS):
+        return "near_miss"
+    return None
+
+
+def _is_single_edit_apart(left: str, right: str) -> bool:
+    """Return True only for one insertion, deletion, or substitution."""
+    if left == right or abs(len(left) - len(right)) > 1:
+        return False
+    if len(left) == len(right):
+        return sum(a != b for a, b in zip(left, right)) == 1
+
+    shorter, longer = (left, right) if len(left) < len(right) else (right, left)
+    short_index = long_index = differences = 0
+    while short_index < len(shorter) and long_index < len(longer):
+        if shorter[short_index] == longer[long_index]:
+            short_index += 1
+            long_index += 1
+            continue
+        differences += 1
+        if differences > 1:
+            return False
+        long_index += 1
+    return True
+
+
+def _validate_route_state(*, route: RouteKind, action: str, used_fallback: bool) -> None:
+    """Reject every contradictory route/action/fallback combination."""
+    if type(route) is not RouteKind:
+        raise TypeError("route must be a RouteKind")
+    if type(used_fallback) is not bool:
+        raise TypeError("used_fallback must be a bool")
+
+    if route is RouteKind.FALLBACK:
+        if not used_fallback or action != _SAFETY_FALLBACK_PLACEHOLDER:
+            raise ValueError("FALLBACK requires its canonical token and used_fallback=True")
+        return
+
+    if route is RouteKind.OBSERVATION_ONLY:
+        if used_fallback or action != _OBSERVATION_ONLY_PLACEHOLDER:
+            raise ValueError("OBSERVATION_ONLY requires its canonical token and used_fallback=False")
+        return
+
+    if used_fallback:
+        raise ValueError("ACTION requires used_fallback=False")
+    if not isinstance(action, str) or not action.strip():
+        raise ValueError("ACTION requires a non-empty structural action token")
+    if _reserved_token_collision(action.strip()) is not None:
+        raise ValueError("ACTION cannot carry a reserved token or finite near miss")
 
 
 class ResetManager:
@@ -239,7 +455,11 @@ class ReplayAudit:
 
     def digest(self, authority: AuditReadAuthority) -> str:
         self._require_read_authority(authority)
-        payload = json.dumps([asdict(e) for e in self._entries], sort_keys=True, separators=(",", ":"))
+        payload = json.dumps(
+            [_replay_entry_record(entry) for entry in self._entries],
+            sort_keys=True,
+            separators=(",", ":"),
+        )
         return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
@@ -297,12 +517,21 @@ class ActionParser:
             token = None
 
         if isinstance(token, str) and token:
-            return ParsedAction(raw_action_text=raw, action=token, used_fallback=False, note="structurally_present")
+            collision = _reserved_token_collision(token)
+            if collision == "exact":
+                return ParsedAction._from_internal_fallback(
+                    raw_action_text=raw,
+                    note="fallback_due_to_reserved_exact_collision",
+                )
+            if collision == "near_miss":
+                return ParsedAction._from_internal_fallback(
+                    raw_action_text=raw,
+                    note="fallback_due_to_reserved_near_miss",
+                )
+            return ParsedAction.from_ordinary_action(raw_action_text=raw, action=token)
 
-        return ParsedAction(
+        return ParsedAction._from_internal_fallback(
             raw_action_text=raw,
-            action=_SAFETY_FALLBACK_PLACEHOLDER,
-            used_fallback=True,
             note="fallback_due_to_missing_structural_action_token",
         )
 
@@ -315,6 +544,7 @@ class EvaluationLogger:
         "seed",
         "step_index",
         "parsed_action",
+        "route",
         "used_fallback",
         "lifecycle",
         "reset_event",
@@ -326,22 +556,73 @@ class EvaluationLogger:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.jsonl_path = self.output_dir / "evaluation_log.jsonl"
         self.csv_path = self.output_dir / "evaluation_summary.csv"
+        self._artifacts_validated = False
 
     def reset(self, episode_id: str, seed: int) -> ResetEvent:
         """Return reset metadata only; logger does not mutate persistent episode state."""
         return ResetEvent(episode_id=episode_id, seed=seed)
 
     def log(self, entry: ReplayEntry) -> None:
-        record = asdict(entry)
+        if not self._artifacts_validated:
+            self._validate_existing_artifacts()
+            self._artifacts_validated = True
+        record = _replay_entry_record(entry)
         with self.jsonl_path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(record, sort_keys=True) + "\n")
 
-        csv_exists = self.csv_path.exists()
+        csv_has_header = self.csv_path.exists() and self.csv_path.stat().st_size > 0
         with self.csv_path.open("a", encoding="utf-8", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=self.CSV_FIELDS)
-            if not csv_exists:
+            if not csv_has_header:
                 writer.writeheader()
             writer.writerow({k: record[k] for k in self.CSV_FIELDS})
+
+    def _validate_existing_artifacts(self) -> None:
+        route_values = {route.value for route in RouteKind}
+        if self.jsonl_path.exists() and self.jsonl_path.stat().st_size > 0:
+            with self.jsonl_path.open(encoding="utf-8") as f:
+                for line_number, line in enumerate(f, start=1):
+                    try:
+                        existing = json.loads(line)
+                    except json.JSONDecodeError as exc:
+                        raise ValueError(
+                            "existing evaluation_log.jsonl is incompatible; use a fresh output directory"
+                        ) from exc
+                    if (
+                        type(existing) is not dict
+                        or type(existing.get("route")) is not str
+                        or existing["route"] not in route_values
+                    ):
+                        raise ValueError(
+                            "existing evaluation_log.jsonl lacks a canonical typed route "
+                            f"at line {line_number}; use a fresh output directory"
+                        )
+
+        if self.csv_path.exists() and self.csv_path.stat().st_size > 0:
+            with self.csv_path.open(encoding="utf-8", newline="") as f:
+                reader = csv.DictReader(f)
+                if reader.fieldnames != self.CSV_FIELDS:
+                    raise ValueError(
+                        "existing evaluation_summary.csv has an incompatible schema; "
+                        "use a fresh output directory"
+                    )
+                for row_number, row in enumerate(reader, start=2):
+                    if (
+                        set(row) != set(self.CSV_FIELDS)
+                        or any(value is None for value in row.values())
+                        or row["route"] not in route_values
+                    ):
+                        raise ValueError(
+                            "existing evaluation_summary.csv lacks a canonical typed route "
+                            f"at row {row_number}; use a fresh output directory"
+                        )
+
+
+def _replay_entry_record(entry: ReplayEntry) -> dict[str, Any]:
+    """Return the canonical primitive record used by JSONL, CSV, and digest."""
+    record = asdict(entry)
+    record["route"] = entry.route.value
+    return record
 
 
 def _safe_size(value: Any) -> int:

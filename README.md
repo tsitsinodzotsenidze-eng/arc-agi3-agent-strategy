@@ -42,12 +42,12 @@ Completed repository-level scope includes:
 - Week 1 safety/contracts infrastructure:
   - deterministic reset and seed handling;
   - structural observation and evidence envelopes;
-  - strict action parsing with a fixed safety fallback;
+  - strict action parsing with authoritative typed `ACTION`/`FALLBACK` outcomes, exact/finite reserved-token collision handling, and a fixed safety fallback;
   - per-episode lifecycle bookkeeping;
-  - deterministic replay records;
-  - local JSONL/CSV audit logging;
+  - deterministic replay records carrying the typed route as the authoritative discriminator;
+  - local JSONL/CSV audit logging with explicit primitive route serialization;
 - Week 2 observation lifecycle hardening:
-  - observation-only environment interface scaffold with a minimal environment protocol and replay-compatible observation records using an observation-only sentinel;
+  - observation-only environment interface scaffold with a minimal environment protocol and replay-compatible observation records using the typed `OBSERVATION_ONLY` route; the legacy sentinel text remains a compatibility projection, not the route authority;
   - stricter observation metadata validation, including rejection of invalid requested `step_index` values before environment calls;
   - type-strict upstream observation identity matching for requested `episode_id` and `step_index`;
   - JSON-like structural-only `raw_observation` validation that rejects non-structural values such as `bytes`, `set`, arbitrary objects, and cyclic structures at the observation boundary;
@@ -82,7 +82,7 @@ For later deterministic replay, an observation row should be able to establish a
 - the validated source provenance (`source_label`);
 - the raw structural observation payload (`raw_observation`) used by the observation boundary;
 - the derived structural metadata (`observation_type`, `summary_size`, `summary_keys`) or enough data to recompute it;
-- the lifecycle/action context when bridging into existing `ReplayEntry` rows, including the observation-only sentinel `__OBSERVATION_ONLY__` for non-action rows.
+- the lifecycle/action context when bridging into existing `ReplayEntry` rows, including the authoritative typed `OBSERVATION_ONLY` route for non-action rows; the legacy `__OBSERVATION_ONLY__` text is retained only as a compatibility projection.
 
 Timestamps, if introduced later, should be optional audit metadata only. They should not participate in deterministic replay identity, ordering, digest inputs, action selection, or observation normalization unless a future contract explicitly says so, because wall-clock values can make replay nondeterministic.
 
@@ -103,7 +103,8 @@ For this phase, observation JSONL/replay work remains documentation-only. The re
 ### Risks and ambiguities to keep visible
 
 - `raw_observation` is currently accepted as structural data, but future JSONL serialization details are not yet specified; tuples, numeric edge cases, and object ordering should be handled deliberately before relying on byte-identical logs.
-- The repository already has Week 1 audit JSONL for `ReplayEntry`, but observation-specific JSONL rows are not implemented. Mixing action/replay rows and observation-only rows without a clear discriminator could make consumers treat observation transport as gameplay actions.
+- The repository already has Week 1 audit JSONL for `ReplayEntry`, but observation-specific JSONL rows are not implemented. `ReplayEntry.route` now supplies the clear typed discriminator; consumers must use its serialized primitive value rather than infer route meaning from legacy marker text.
+- The typed-route schema adds `route` to audit JSONL, CSV, and digest inputs. The logger refuses to append to incompatible pre-C-05 artifacts; use a fresh output directory rather than mixing or silently migrating schemas.
 - `source_label` is provenance only. If future components use it as a policy or evaluator feature, replay behavior could depend on logging metadata rather than environment state.
 - Timestamps can help audits but can also make digests and ordering nondeterministic if included in replay-critical fields.
 - Derived summaries should be verified against `raw_observation`; trusting upstream-provided summaries risks inconsistent replay and unsafe cross-environment comparisons.

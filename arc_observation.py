@@ -109,17 +109,12 @@ class EnvironmentObserver:
 
     @staticmethod
     def to_replay_entry(record: ObservationRecord, *, seed: int, status_note: str = "observation_only") -> ReplayEntry:
-        return ReplayEntry(
+        return ReplayEntry.from_observation_only(
             episode_id=record.episode_id,
             seed=seed,
             step_index=record.step_index,
             lifecycle="running",
             reset_event=False,
-            raw_action_text=None,
-            # Sentinel for observation-transport-only replay rows; not a real action.
-            # Replay/action consumers must filter or treat this as non-action metadata.
-            parsed_action="__OBSERVATION_ONLY__",
-            used_fallback=False,
             observation_type=record.observation_type,
             observation_size=record.summary_size,
             status_note=status_note,
