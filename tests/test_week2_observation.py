@@ -6,6 +6,7 @@ from arc_observation import (
     validate_observation_metadata,
     validate_observation_shape,
 )
+from arc_week1 import RouteKind
 
 
 class _FakeEnvironment:
@@ -208,6 +209,28 @@ def test_environment_observer_generates_replay_compatible_entries():
     assert replay_entry.step_index == 1
     assert replay_entry.observation_type == "dict"
     assert replay_entry.observation_size == 2
+    assert replay_entry.parsed_action == "__OBSERVATION_ONLY__"
+    assert replay_entry.route is RouteKind.OBSERVATION_ONLY
+    assert replay_entry.used_fallback is False
+
+
+def test_reserved_and_near_miss_text_in_raw_observation_remains_data():
+    raw_observation = {
+        "exact_fallback": "__SAFETY_FALLBACK__",
+        "exact_observation": "__OBSERVATION_ONLY__",
+        "near_miss": "__OBSERVATION_ONLX__",
+    }
+    record = ObservationRecord.create(
+        episode_id="ep-reserved-data",
+        step_index=0,
+        raw_observation=raw_observation,
+        source_label="test_env",
+    )
+
+    replay_entry = EnvironmentObserver.to_replay_entry(record, seed=9)
+
+    assert record.raw_observation == raw_observation
+    assert replay_entry.route is RouteKind.OBSERVATION_ONLY
     assert replay_entry.parsed_action == "__OBSERVATION_ONLY__"
     assert replay_entry.used_fallback is False
 
