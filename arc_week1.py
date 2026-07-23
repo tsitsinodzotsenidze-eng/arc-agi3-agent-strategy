@@ -539,6 +539,23 @@ class ActionParser:
 class EvaluationLogger:
     """Audit-only local logger for JSONL detail + CSV summary."""
 
+    JSONL_FIELDS = frozenset(
+        {
+            "episode_id",
+            "seed",
+            "step_index",
+            "lifecycle",
+            "reset_event",
+            "raw_action_text",
+            "parsed_action",
+            "route",
+            "used_fallback",
+            "observation_type",
+            "observation_size",
+            "status_note",
+        }
+    )
+
     CSV_FIELDS = [
         "episode_id",
         "seed",
@@ -578,7 +595,6 @@ class EvaluationLogger:
             writer.writerow({k: record[k] for k in self.CSV_FIELDS})
 
     def _validate_existing_artifacts(self) -> None:
-        route_values = {route.value for route in RouteKind}
         if self.jsonl_path.exists() and self.jsonl_path.stat().st_size > 0:
             with self.jsonl_path.open(encoding="utf-8") as f:
                 for line_number, line in enumerate(f, start=1):
@@ -588,15 +604,24 @@ class EvaluationLogger:
                         raise ValueError(
                             "existing evaluation_log.jsonl is incompatible; use a fresh output directory"
                         ) from exc
-                    if (
-                        type(existing) is not dict
-                        or type(existing.get("route")) is not str
-                        or existing["route"] not in route_values
-                    ):
+                    if type(existing) is not dict or set(existing) != self.JSONL_FIELDS:
                         raise ValueError(
-                            "existing evaluation_log.jsonl lacks a canonical typed route "
+                            "existing evaluation_log.jsonl lacks the canonical schema "
                             f"at line {line_number}; use a fresh output directory"
                         )
+                    try:
+                        _validate_serialized_route_state(
+                            route_value=existing["route"],
+                            parsed_action=existing["parsed_action"],
+                            used_fallback=existing["used_fallback"],
+                            raw_action_text=existing["raw_action_text"],
+                            require_observation_raw_action_none=True,
+                        )
+                    except (TypeError, ValueError) as exc:
+                        raise ValueError(
+                            "existing evaluation_log.jsonl has a non-canonical route state "
+                            f"at line {line_number}; use a fresh output directory"
+                        ) from exc
 
         if self.csv_path.exists() and self.csv_path.stat().st_size > 0:
             with self.csv_path.open(encoding="utf-8", newline="") as f:
@@ -610,12 +635,22 @@ class EvaluationLogger:
                     if (
                         set(row) != set(self.CSV_FIELDS)
                         or any(value is None for value in row.values())
-                        or row["route"] not in route_values
                     ):
                         raise ValueError(
-                            "existing evaluation_summary.csv lacks a canonical typed route "
+                            "existing evaluation_summary.csv lacks the canonical schema "
                             f"at row {row_number}; use a fresh output directory"
                         )
+                    try:
+                        _validate_serialized_route_state(
+                            route_value=row["route"],
+                            parsed_action=row["parsed_action"],
+                            used_fallback=_parse_canonical_csv_bool(row["used_fallback"]),
+                        )
+                    except (TypeError, ValueError) as exc:
+                        raise ValueError(
+                            "existing evaluation_summary.csv has a non-canonical route state "
+                            f"at row {row_number}; use a fresh output directory"
+                        ) from exc
 
 
 def _replay_entry_record(entry: ReplayEntry) -> dict[str, Any]:
@@ -623,6 +658,44 @@ def _replay_entry_record(entry: ReplayEntry) -> dict[str, Any]:
     record = asdict(entry)
     record["route"] = entry.route.value
     return record
+
+
+def _validate_serialized_route_state(
+    *,
+    route_value: Any,
+    parsed_action: Any,
+    used_fallback: Any,
+    raw_action_text: Any = None,
+    require_observation_raw_action_none: bool = False,
+) -> None:
+    """Apply the typed route invariant to an existing primitive artifact row."""
+    if type(route_value) is not str:
+        raise TypeError("serialized route must be a string")
+    try:
+        route = RouteKind(route_value)
+    except ValueError as exc:
+        raise ValueError("serialized route is not canonical") from exc
+
+    _validate_route_state(
+        route=route,
+        action=parsed_action,
+        used_fallback=used_fallback,
+    )
+    if (
+        require_observation_raw_action_none
+        and route is RouteKind.OBSERVATION_ONLY
+        and raw_action_text is not None
+    ):
+        raise ValueError("serialized OBSERVATION_ONLY requires raw_action_text=None")
+
+
+def _parse_canonical_csv_bool(value: Any) -> bool:
+    """Parse only the exact Boolean spellings emitted by csv.DictWriter."""
+    if value == "True":
+        return True
+    if value == "False":
+        return False
+    raise ValueError("serialized CSV Boolean is not canonical")
 
 
 def _safe_size(value: Any) -> int:

@@ -681,6 +681,103 @@ def test_evaluation_logger_rejects_legacy_artifacts_before_any_write(
     assert not (tmp_path / other_artifact).exists()
 
 
+@pytest.mark.parametrize(
+    "existing",
+    [
+        {"route": "ACTION"},
+        {
+            "episode_id": "ep-contradictory",
+            "seed": 1,
+            "step_index": 0,
+            "lifecycle": "running",
+            "reset_event": True,
+            "raw_action_text": "MOVE",
+            "parsed_action": "MOVE",
+            "route": "FALLBACK",
+            "used_fallback": False,
+            "observation_type": "dict",
+            "observation_size": 1,
+            "status_note": "contradictory",
+        },
+        {
+            "episode_id": "ep-contradictory",
+            "seed": 1,
+            "step_index": 0,
+            "lifecycle": "running",
+            "reset_event": False,
+            "raw_action_text": "__OBSERVATION_ONLY__",
+            "parsed_action": "__OBSERVATION_ONLY__",
+            "route": "OBSERVATION_ONLY",
+            "used_fallback": False,
+            "observation_type": "dict",
+            "observation_size": 1,
+            "status_note": "contradictory",
+        },
+    ],
+)
+def test_evaluation_logger_rejects_noncanonical_jsonl_before_any_write(tmp_path, existing):
+    jsonl_path = tmp_path / "evaluation_log.jsonl"
+    original = json.dumps(existing, sort_keys=True) + "\n"
+    jsonl_path.write_text(original, encoding="utf-8")
+    logger = EvaluationLogger(tmp_path)
+    entry = ReplayEntry.from_ordinary_action(
+        episode_id="ep-new",
+        seed=2,
+        step_index=0,
+        lifecycle="running",
+        reset_event=True,
+        raw_action_text="MOVE",
+        parsed_action="MOVE",
+        observation_type="dict",
+        observation_size=1,
+    )
+
+    with pytest.raises(ValueError, match="fresh output directory"):
+        logger.log(entry)
+
+    assert jsonl_path.read_text(encoding="utf-8") == original
+    assert not (tmp_path / "evaluation_summary.csv").exists()
+
+
+def test_evaluation_logger_rejects_contradictory_csv_before_any_write(tmp_path):
+    csv_path = tmp_path / "evaluation_summary.csv"
+    with csv_path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=EvaluationLogger.CSV_FIELDS)
+        writer.writeheader()
+        writer.writerow(
+            {
+                "episode_id": "ep-contradictory",
+                "seed": 1,
+                "step_index": 0,
+                "parsed_action": "MOVE",
+                "route": "FALLBACK",
+                "used_fallback": False,
+                "lifecycle": "running",
+                "reset_event": True,
+                "status_note": "contradictory",
+            }
+        )
+    original = csv_path.read_text(encoding="utf-8")
+    logger = EvaluationLogger(tmp_path)
+    entry = ReplayEntry.from_ordinary_action(
+        episode_id="ep-new",
+        seed=2,
+        step_index=0,
+        lifecycle="running",
+        reset_event=True,
+        raw_action_text="MOVE",
+        parsed_action="MOVE",
+        observation_type="dict",
+        observation_size=1,
+    )
+
+    with pytest.raises(ValueError, match="fresh output directory"):
+        logger.log(entry)
+
+    assert csv_path.read_text(encoding="utf-8") == original
+    assert not (tmp_path / "evaluation_log.jsonl").exists()
+
+
 def test_evaluation_logger_appends_to_existing_canonical_artifacts(tmp_path):
     action_entry = ReplayEntry.from_ordinary_action(
         episode_id="ep-canonical",

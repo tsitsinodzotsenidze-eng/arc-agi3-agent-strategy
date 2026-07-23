@@ -104,7 +104,7 @@ For this phase, observation JSONL/replay work remains documentation-only. The re
 
 - `raw_observation` is currently accepted as structural data, but future JSONL serialization details are not yet specified; tuples, numeric edge cases, and object ordering should be handled deliberately before relying on byte-identical logs.
 - The repository already has Week 1 audit JSONL for `ReplayEntry`, but observation-specific JSONL rows are not implemented. `ReplayEntry.route` now supplies the clear typed discriminator; consumers must use its serialized primitive value rather than infer route meaning from legacy marker text.
-- The typed-route schema adds `route` to audit JSONL, CSV, and digest inputs. The logger refuses to append to incompatible pre-C-05 artifacts; use a fresh output directory rather than mixing or silently migrating schemas.
+- The typed-route schema adds `route` to audit JSONL, CSV, and digest inputs. On its first write, each logger instance refuses to append unless existing artifacts have the complete canonical schema and a consistent typed route state; use a fresh output directory rather than mixing or silently migrating schemas. This startup preflight does not provide continuous external-mutation detection or cross-file transactional durability.
 - `source_label` is provenance only. If future components use it as a policy or evaluator feature, replay behavior could depend on logging metadata rather than environment state.
 - Timestamps can help audits but can also make digests and ordering nondeterministic if included in replay-critical fields.
 - Derived summaries should be verified against `raw_observation`; trusting upstream-provided summaries risks inconsistent replay and unsafe cross-environment comparisons.
