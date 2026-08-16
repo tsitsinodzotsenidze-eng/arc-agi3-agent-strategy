@@ -44,6 +44,7 @@ Completed repository-level scope includes:
   - structural observation and evidence envelopes;
   - strict action parsing with authoritative typed `ACTION`/`FALLBACK` outcomes, exact/finite reserved-token collision handling, and a fixed safety fallback;
   - per-episode lifecycle bookkeeping;
+  - owner-bound, audit-instance-bound, revocable read capabilities for `ReplayAudit` entries and digest access, with authority validation before protected work or disclosure;
   - deterministic replay records carrying the typed route as the authoritative discriminator;
   - local JSONL/CSV audit logging with explicit primitive route serialization;
 - Week 2 observation lifecycle hardening:
@@ -56,6 +57,30 @@ Completed repository-level scope includes:
   - Week 1 `_safe_size()` consistency cleanup so only `str`, `list`, `tuple`, and `dict` are treated as sized containers, while `bytes`, `set`, scalar-like values, and other unsupported values fall through to the stable placeholder size `1`.
 
 Observation payloads are treated structurally. The observation boundary validates metadata and structural shape, records provenance, and recomputes structural summaries without inferring semantics, choosing actions, or adding gameplay behavior.
+
+## Governance and implementation status
+
+This status snapshot reconciles repository state assessed at the pre-README baseline `main` commit `633fab9db4de72e4907ef36e6222c8b0adf6cfaf`. A later README-only commit or merge will necessarily advance the branch tip; this SHA remains the assessed implementation baseline rather than a claim about the later tip. This section records repository and governance state; it does not create implementation, execution, merge, migration, README, activation, or living-status authority.
+
+### Living implementations
+
+- **C-07 — replay-audit read authorization:** historical documentary chronology remains in [Issue #29](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/issues/29); the living implementation was merged through [PR #30](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/pull/30) at exact approved head `6e36fcbc414588c832b5add8f00049edc52ef7fe`; merge commit `702e50af670ac021a6f5bcf419527b02d9f9110e`; exact-head CI run `29766181102` completed successfully. C-07 remains living and preserved.
+- **C-05 — Route A′ typed-routing safety contract:** merged through [PR #31](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/pull/31) at exact approved head `c4804de4dfa766cd11d03d738ceb115b635d1bd2`; merge commit and assessed implementation baseline `633fab9db4de72e4907ef36e6222c8b0adf6cfaf`; exact-head CI run `30013919819` completed successfully. C-05 remains living and preserved.
+- [Issue #37](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/issues/37) is an open, non-blocking C-05 logger-robustness follow-up covering preflight lifetime and cross-file durability disposition. It does not reopen or weaken C-05 and grants no implementation authority.
+
+### Documentary and readiness controls
+
+- **C-02:** [Issue #32](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/issues/32) is closed/completed; design allocation adopted and G-02d closed at the documentary/design level; implementation not ready.
+- **C-03:** [Issue #33](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/issues/33) is closed/completed; implementation-readiness plan adopted; implementation not ready.
+- **C-01/C-02/C-04 combined package (C124):** [Issue #34](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/issues/34) is closed/completed; package v0.4 adopted; implementation not ready.
+- **C-06:** [Issue #35](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/issues/35) is closed/completed; implementation-readiness plan accepted at the documentary/design level; implementation not ready.
+- **C-08:** [Issue #36](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/issues/36) is closed/completed; ready for a separately authorized implementation attempt at the exact assessed `main`; not implemented, executed, passed, merge-ready, activated, or living.
+
+### Sequence and authority boundary
+
+The adopted implementation sequence is `C-08 → C-03 → C124 → C-06`. C-08 is the only present candidate for the next separately authorized implementation attempt. That position is status-contingent and is not itself implementation or execution authority.
+
+**CURRENT GOVERNANCE STATUS: C-07 LIVING IMPLEMENTATION PRESERVED | C-05 LIVING IMPLEMENTATION PRESERVED | C-05 LOGGER-ROBUSTNESS FOLLOW-UP OPEN / NON-BLOCKING | C-02, C-03, C124, AND C-06 IMPLEMENTATION NOT READY | C-08 READY FOR A SEPARATELY AUTHORIZED ATTEMPT / NOT IMPLEMENTED | NEW IMPLEMENTATION AUTHORITY NONE | NEW EXECUTION AUTHORITY NONE.**
 
 ## Week 2 Day 3 observation JSONL/replay compatibility notes
 
