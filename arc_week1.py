@@ -20,7 +20,8 @@ from enum import Enum
 import hashlib
 import json
 import random
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
+import stat
 from typing import Any, Literal
 
 LifecyclePhase = Literal["initialized", "running", "finished", "failed", "reset"]
@@ -568,11 +569,29 @@ class EvaluationLogger:
         "status_note",
     ]
 
-    def __init__(self, output_dir: Path) -> None:
-        self.output_dir = output_dir
-        self.output_dir.mkdir(parents=True, exist_ok=True)
+    def __init__(
+        self,
+        evaluation_root: Path,
+        relative_target: Path = Path("."),
+    ) -> None:
+        if not isinstance(evaluation_root, Path):
+            raise TypeError("evaluation_root must be a pathlib.Path")
+        if not isinstance(relative_target, Path):
+            raise TypeError("relative_target must be a pathlib.Path")
+
+        self._supplied_evaluation_root = evaluation_root
+        self.canonical_root = self._validate_evaluation_root(evaluation_root)
+        self._validate_relative_target(relative_target)
+        self.relative_target = relative_target
+
+        candidate = self._resolve_validated_target(require_exists=False)
+        if not candidate.exists():
+            candidate.mkdir(parents=True)
+        self.output_dir = self._resolve_validated_target(require_exists=True)
         self.jsonl_path = self.output_dir / "evaluation_log.jsonl"
         self.csv_path = self.output_dir / "evaluation_summary.csv"
+        self._validate_artifact_object(self.jsonl_path)
+        self._validate_artifact_object(self.csv_path)
         self._artifacts_validated = False
 
     def reset(self, episode_id: str, seed: int) -> ResetEvent:
@@ -580,23 +599,152 @@ class EvaluationLogger:
         return ResetEvent(episode_id=episode_id, seed=seed)
 
     def log(self, entry: ReplayEntry) -> None:
+        self._validate_artifact_pair()
         if not self._artifacts_validated:
             self._validate_existing_artifacts()
             self._artifacts_validated = True
         record = _replay_entry_record(entry)
-        with self.jsonl_path.open("a", encoding="utf-8") as f:
+        with self._open_validated_artifact(
+            self.jsonl_path,
+            "a",
+            encoding="utf-8",
+        ) as f:
             f.write(json.dumps(record, sort_keys=True) + "\n")
 
         csv_has_header = self.csv_path.exists() and self.csv_path.stat().st_size > 0
-        with self.csv_path.open("a", encoding="utf-8", newline="") as f:
+        with self._open_validated_artifact(
+            self.csv_path,
+            "a",
+            encoding="utf-8",
+            newline="",
+        ) as f:
             writer = csv.DictWriter(f, fieldnames=self.CSV_FIELDS)
             if not csv_has_header:
                 writer.writeheader()
             writer.writerow({k: record[k] for k in self.CSV_FIELDS})
 
+    @staticmethod
+    def _validate_evaluation_root(evaluation_root: Path) -> Path:
+        try:
+            root_state = evaluation_root.lstat()
+        except (OSError, RuntimeError) as exc:
+            raise ValueError("evaluation_root must be a pre-existing directory") from exc
+        if stat.S_ISLNK(root_state.st_mode):
+            raise ValueError("evaluation_root must not be a symlink")
+        if not stat.S_ISDIR(root_state.st_mode):
+            raise ValueError("evaluation_root must be a directory")
+        try:
+            canonical_root = evaluation_root.resolve(strict=True)
+        except (OSError, RuntimeError) as exc:
+            raise ValueError("evaluation_root cannot be resolved safely") from exc
+        if not canonical_root.is_dir():
+            raise ValueError("evaluation_root must resolve to a directory")
+        return canonical_root
+
+    @staticmethod
+    def _validate_relative_target(relative_target: Path) -> None:
+        target_text = str(relative_target)
+        posix_target = PurePosixPath(target_text)
+        windows_target = PureWindowsPath(target_text)
+        if (
+            relative_target.anchor
+            or relative_target.is_absolute()
+            or posix_target.is_absolute()
+            or windows_target.anchor
+        ):
+            raise ValueError("relative_target must not be absolute or anchored")
+        if (
+            ".." in relative_target.parts
+            or ".." in posix_target.parts
+            or ".." in windows_target.parts
+        ):
+            raise ValueError("relative_target must not contain '..'")
+
+    def _validate_existing_target_prefixes(self) -> None:
+        current = self.canonical_root
+        for component in self.relative_target.parts:
+            if component in {"", "."}:
+                continue
+            current = current / component
+            try:
+                prefix_state = current.lstat()
+            except FileNotFoundError:
+                continue
+            except OSError as exc:
+                raise ValueError("evaluation target prefix cannot be inspected safely") from exc
+            if stat.S_ISLNK(prefix_state.st_mode):
+                raise ValueError("evaluation target prefix must not be a symlink")
+            if not stat.S_ISDIR(prefix_state.st_mode):
+                raise ValueError("evaluation target prefix must be a directory")
+
+    def _require_component_containment(self, candidate: Path) -> None:
+        try:
+            candidate.relative_to(self.canonical_root)
+        except ValueError as exc:
+            raise ValueError("evaluation target must remain inside evaluation_root") from exc
+
+    def _resolve_validated_target(self, *, require_exists: bool) -> Path:
+        self._validate_existing_target_prefixes()
+        try:
+            candidate = (self.canonical_root / self.relative_target).resolve(strict=False)
+        except (OSError, RuntimeError) as exc:
+            raise ValueError("evaluation target cannot be resolved safely") from exc
+        self._require_component_containment(candidate)
+        if require_exists:
+            try:
+                target_state = candidate.lstat()
+            except (OSError, RuntimeError) as exc:
+                raise ValueError("evaluation target must remain a directory") from exc
+            if stat.S_ISLNK(target_state.st_mode) or not stat.S_ISDIR(target_state.st_mode):
+                raise ValueError("evaluation target must remain a directory")
+        return candidate
+
+    @staticmethod
+    def _validate_artifact_object(artifact_path: Path) -> None:
+        try:
+            artifact_state = artifact_path.lstat()
+        except FileNotFoundError:
+            return
+        except OSError as exc:
+            raise ValueError("evaluation artifact cannot be inspected safely") from exc
+        if stat.S_ISLNK(artifact_state.st_mode) or not stat.S_ISREG(artifact_state.st_mode):
+            raise ValueError("evaluation artifact must be missing or a regular file")
+
+    def _revalidate_root_and_target(self) -> None:
+        current_root = self._validate_evaluation_root(self._supplied_evaluation_root)
+        if current_root != self.canonical_root:
+            raise ValueError("evaluation_root canonical identity changed")
+        current_target = self._resolve_validated_target(require_exists=True)
+        if current_target != self.output_dir:
+            raise ValueError("evaluation target canonical identity changed")
+
+    def _validate_artifact_pair(self) -> None:
+        self._revalidate_root_and_target()
+        self._validate_artifact_object(self.jsonl_path)
+        self._validate_artifact_object(self.csv_path)
+
+    def _revalidate_before_artifact_open(self, artifact_path: Path) -> None:
+        if artifact_path not in {self.jsonl_path, self.csv_path}:
+            raise ValueError("artifact path is not governed by EvaluationLogger")
+        self._revalidate_root_and_target()
+        self._validate_artifact_object(artifact_path)
+
+    def _open_validated_artifact(
+        self,
+        artifact_path: Path,
+        mode: str,
+        **kwargs: Any,
+    ) -> Any:
+        self._revalidate_before_artifact_open(artifact_path)
+        return artifact_path.open(mode, **kwargs)
+
     def _validate_existing_artifacts(self) -> None:
         if self.jsonl_path.exists() and self.jsonl_path.stat().st_size > 0:
-            with self.jsonl_path.open(encoding="utf-8") as f:
+            with self._open_validated_artifact(
+                self.jsonl_path,
+                "r",
+                encoding="utf-8",
+            ) as f:
                 for line_number, line in enumerate(f, start=1):
                     try:
                         existing = json.loads(line)
@@ -624,7 +772,12 @@ class EvaluationLogger:
                         ) from exc
 
         if self.csv_path.exists() and self.csv_path.stat().st_size > 0:
-            with self.csv_path.open(encoding="utf-8", newline="") as f:
+            with self._open_validated_artifact(
+                self.csv_path,
+                "r",
+                encoding="utf-8",
+                newline="",
+            ) as f:
                 reader = csv.DictReader(f)
                 if reader.fieldnames != self.CSV_FIELDS:
                     raise ValueError(
