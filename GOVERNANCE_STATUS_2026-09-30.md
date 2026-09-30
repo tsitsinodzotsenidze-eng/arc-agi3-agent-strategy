@@ -32,19 +32,22 @@ Historical Issue #36 records the pre-implementation readiness state. C-08 was la
 
 This later implementation supersedes the earlier “ready for a separately authorized attempt / not implemented” status in Issue #36, while preserving that issue as the historical readiness record.
 
-## Open follow-up
+## Closed follow-up
 
 ### Issue #37 — C-05 logger robustness follow-up
 
-Issue #37 remains **OPEN / NON-BLOCKING**.
+Issue #37 was closed on 30 Sep 2026 by explicit **Director + Co-Director disposition**.
 
-Later C-08 work resolves a substantial portion of the original “preflight lifetime” concern by adding revalidation of root/target/artifact state before governed file opens. The remaining live question is narrower:
+C-08 resolved the original preflight-lifetime portion through root/target/artifact validation and immediately-before-open revalidation. The remaining cross-file behavior is now an **accepted documented residual**:
 
-- cross-file consistency between `evaluation_log.jsonl` and `evaluation_summary.csv`;
-- interruption/crash behavior across sibling writes;
-- whether best-effort dual outputs are an accepted residual or whether a later explicit durability contract is warranted.
+- `evaluation_log.jsonl` and `evaluation_summary.csv` are ordered sibling outputs, not a cross-file atomic transaction;
+- interruption between the two writes may temporarily leave sibling divergence;
+- no current repository consumer requires atomic sibling commit semantics;
+- no journal, manifest, third durability artifact, lock service, migration layer, or transaction framework is authorized or required.
 
-Issue #37 should not be closed merely for repository neatness. Its own closure criteria require an explicit Director + Co-Director disposition.
+If a future consumer requires atomic pair consistency, crash reconstruction, concurrency coordination, or an additional persistence mechanism, that work must begin as a new bounded issue against the then-current exact head.
+
+**Final #37 status: CLOSED / COMPLETED | BEST-EFFORT ORDERED DUAL OUTPUT ACCEPTED AS DOCUMENTED RESIDUAL | NEW IMPLEMENTATION AUTHORITY NONE.**
 
 ## Historical readiness records
 
