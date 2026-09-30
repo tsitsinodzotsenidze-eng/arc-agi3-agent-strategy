@@ -73,6 +73,10 @@ The K0 native-factory verifier reported:
 K0_VERIFY_PASS env=0 native_factory=True effective_k=0 seed=1729
 ```
 
+## Governance status
+
+For the current implementation/closure index and the relationship between historical issues and later superseding work, see [GOVERNANCE_STATUS_2026-09-30.md](GOVERNANCE_STATUS_2026-09-30.md).
+
 ## Project history
 
 The earlier long-form governance README has been preserved as [PROJECT_HISTORY.md](PROJECT_HISTORY.md). It remains useful for chronology, but its status statements may describe an earlier project phase.
