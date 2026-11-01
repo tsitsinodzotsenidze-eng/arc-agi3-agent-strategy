@@ -1,0 +1,11 @@
+{
+  "condition": "K1VIR-F20T5-CR1",
+  "benchmark_and_scoring_completed": true,
+  "real_submission": false,
+  "automatic_repeat_authorized": false,
+  "cleanup_errors": [],
+  "native_teardown_returncodes": [
+    0
+  ],
+  "controller_restored": true
+}

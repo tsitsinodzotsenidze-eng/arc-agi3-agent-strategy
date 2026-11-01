@@ -1,0 +1,22 @@
+{
+  "condition": "K1VIR-F20T5-CR1",
+  "counters": {
+    "games_started": 25,
+    "finalized": 25,
+    "write_errors": 0,
+    "K1_eligible": 8,
+    "K1_attempt": 8,
+    "K1_expired": 8,
+    "K1_context_applied": 8,
+    "K1_next_request_attempt": 8,
+    "K1_next_response": 8,
+    "K1_next_environment_action": 8,
+    "VIR_eligible": 1,
+    "VIR_attempt": 1,
+    "VIR_context_applied": 1,
+    "VIR_next_request_attempt": 1,
+    "VIR_next_response": 1,
+    "VIR_next_environment_action": 1
+  },
+  "read_errors": []
+}

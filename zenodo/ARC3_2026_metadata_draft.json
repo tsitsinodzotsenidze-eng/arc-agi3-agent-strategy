@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "title": "ARC-AGI-3: Recovery Study II competition carriers and reproducibility record (2026)",
+    "upload_type": "software",
+    "creators": [
+      {
+        "name": "Dzotsenidze, Tsitsino"
+      }
+    ],
+    "version": "2026-final-preparation-1",
+    "description": "ARC Prize 2026 ARC-AGI-3 saved-version carrier source transcriptions, selected development receipts, provenance hashes, and technical writeup. Official observed public scores: K0 3.32, historical K2 3.10, K1+VIR 2.61. Descriptive unreplicated results; no causal recovery claim. Model weights and external source/runtime datasets are not included. K2 is a source-cell reconstruction, not an original downloaded notebook. Original project contributions retain Apache-2.0; external components retain their own terms.",
+    "access_right": "open",
+    "license": "Apache-2.0",
+    "keywords": [
+      "ARC-AGI-3",
+      "interactive reasoning",
+      "recovery",
+      "reproducibility",
+      "human-AI collaboration"
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy",
+        "relation": "isSupplementTo",
+        "scheme": "url"
+      }
+    ]
+  },
+  "preparation_status": {
+    "published": false,
+    "doi": null,
+    "existing_record_inspected": false,
+    "review_required": [
+      "Inspect existing Zenodo records to choose new record versus new version",
+      "Confirm external license scope and accessibility",
+      "Confirm final GitHub commit/release URL",
+      "Replace preparation version with actual released version"
+    ],
+    "note": "Metadata draft only. No affiliation, ORCID, DOI, publication date, or existing record has been invented."
+  }
+}

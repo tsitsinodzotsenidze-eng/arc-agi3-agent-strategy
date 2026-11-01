@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-27",
+  "official_submission_performed": false,
+  "official_scoring_completed": false,
+  "transfer_method": "Fresh copy of R6m1 Version4; File > Editor Type > Script; complete code-only editor replacement; UI clipboard exact-byte readback verified",
+  "inputs_per_candidate": 11,
+  "accelerator": "GPU RTX Pro 6000",
+  "internet": "OFF",
+  "environment": "Pin to original environment (2026-06-30)",
+  "candidates": [
+    {
+      "condition": "K0",
+      "title": "RSII K0 Submission 2",
+      "version": 1,
+      "run_id": 362927490,
+      "successful_seconds": 30.3,
+      "mode": "PACKAGING_ONLY",
+      "completion_marker": "K0_PACKAGING_COMPLETE",
+      "script_bytes": 141697,
+      "script_sha256": "82ff0b7ade1db5fc05ad8ea0b091811c931cceaddd43fc5ab592d52e1721dc4c",
+      "url": "https://www.kaggle.com/code/tsitsinodzotsenidze/rsii-k0-submission-2/log?scriptVersionId=362927490"
+    },
+    {
+      "condition": "K1VIR-F20T5-CR1",
+      "title": "RSII K1VIR Submission",
+      "version": 1,
+      "run_id": 362929164,
+      "successful_seconds": 18.4,
+      "mode": "PACKAGING_ONLY",
+      "completion_marker": "K1VIR_PACKAGING_COMPLETE",
+      "script_bytes": 201145,
+      "script_sha256": "ff48afd724423b8de9ae5e0acc70952ad8d4dc4a5a75ac59516c719adcfe77ca",
+      "url": "https://www.kaggle.com/code/tsitsinodzotsenidze/rsii-k1vir-submission/log?scriptVersionId=362929164"
+    }
+  ],
+  "next_action": "Cici personally performs K0 official Submit to Competition first; K1VIR second when daily allowance permits. Final selection is separate."
+}

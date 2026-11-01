@@ -1,0 +1,21 @@
+{
+  "schema": "arc3-release-validation-v1",
+  "k0_and_k1_python_syntax": "PASS, parsed without execution",
+  "k0_embedded_python_helpers": "PASS, syntax and declared SHA-256 checked without execution",
+  "k1_rendered_source_matches_prepared_artifact": true,
+  "k2_source_cell_count": 9,
+  "k2_original_metadata_claimed": false,
+  "source_sqlite_zip_size_and_sha256": "PASS, read-only; no pickle deserialization",
+  "common_credential_pattern_scan": "PASS, bounded patterns only",
+  "existing_k1_cpu_tests": "Preserved prior CPU_TEST_RESULTS receipt; not rerun for documentation packaging",
+  "new_gpu_or_gameplay_execution": false,
+  "excluded": [
+    "model weights",
+    "external source ZIP/SQLite",
+    "full gameplay archive",
+    "private handoff/chat artifacts",
+    "Library transfer metadata"
+  ],
+  "k0_and_k1_embedded_helpers": "PASS, every embedded helper hash checked; Python helpers parsed and bounded credential-pattern scan passed",
+  "astra_required_edits": "Incorporated; external publication/license completion items remain explicit"
+}

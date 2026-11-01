@@ -1,0 +1,55 @@
+{
+  "schema": "arc3-official-results-v1",
+  "observation_date_georgia": "2026-11-02",
+  "source": "Signed-in Kaggle competition Submissions UI; scores are displayed rounded public leaderboard values",
+  "final_selection_observed": "0/2; no final selections made during preparation",
+  "recommended_final_candidates": [
+    "K0",
+    "K2"
+  ],
+  "recommendation_basis": "Two highest observed public scores; private score unknown",
+  "rows": [
+    {
+      "candidate": "K0",
+      "score": 3.32,
+      "status": "Succeeded",
+      "script_version_id": 362927490,
+      "notebook_version": 1
+    },
+    {
+      "candidate": "K2",
+      "score": 3.1,
+      "status": "Succeeded",
+      "script_version_id": 353983921,
+      "notebook_version": 2
+    },
+    {
+      "candidate": "V11 baseline",
+      "score": 3.07,
+      "status": "Succeeded",
+      "script_version_id": 350894675,
+      "notebook_version": 1
+    },
+    {
+      "candidate": "K1VIR",
+      "score": 2.61,
+      "status": "Succeeded",
+      "script_version_id": 362929164,
+      "notebook_version": 1
+    },
+    {
+      "candidate": "historical K0 twin",
+      "score": 2.6,
+      "status": "Succeeded",
+      "exact_version_not_recovered": true
+    },
+    {
+      "candidate": "earlier V12-A K2",
+      "score": 2.49,
+      "status": "Succeeded",
+      "exact_version_not_recovered": true
+    }
+  ],
+  "infrastructure_history": "Earlier K0 attempt displayed Kaggle Error; subsequent unchanged-Version-1 retry succeeded. The error is not a zero-score experiment.",
+  "inference_limit": "Descriptive, unreplicated public scores; not a matched causal estimate of recovery."
+}

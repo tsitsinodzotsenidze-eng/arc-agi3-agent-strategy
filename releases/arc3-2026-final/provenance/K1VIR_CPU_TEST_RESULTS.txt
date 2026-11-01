@@ -1,0 +1,21 @@
+K1+VIR focused CPU validation. All live-route GPU/gateway/model behavior below is mocked.
+No real GPU allocation, model request, gameplay, Kaggle mutation or submission occurred.
+
+K1VIR_GPU NVIDIA RTX PRO 6000, 97887 MiB, 97250 MiB
+K1VIR_COMPETITION_BUDGET {"available_play_seconds": 31799.99807548523, "clamped_to_remaining_budget": true, "desired_per_game_seconds": 14400.0, "estimated_play_upper_seconds": 31559.99807548523, "game_count": 110, "notebook_reserve_seconds": 600.0, "per_game_seconds": 7889.999518871307, "waves": 4, "workers": 28}
+K1VIR_CLIENT_RUN_COMPLETE — official scoring remains Kaggle-owned
+K1VIR_PACKAGING_COMPLETE — human Submit to Competition starts the real gateway rerun
+K1VIR_GPU NVIDIA RTX PRO 6000, 97887 MiB, 97250 MiB
+K1VIR_COMPETITION_BUDGET {"available_play_seconds": 31799.998777151108, "clamped_to_remaining_budget": true, "desired_per_game_seconds": 14400.0, "estimated_play_upper_seconds": 31559.998777151108, "game_count": 110, "notebook_reserve_seconds": 600.0, "per_game_seconds": 7889.999694287777, "waves": 4, "workers": 28}
+test_exact_R6m1_scientific_identity_and_helpers (__main__.K1VIRCandidateTests.test_exact_R6m1_scientific_identity_and_helpers) ... ok
+test_live_route_preserves_gateway_output_and_mechanism_evidence (__main__.K1VIRCandidateTests.test_live_route_preserves_gateway_output_and_mechanism_evidence) ... ok
+test_notebook_script_equivalence_and_valid_plain_python (__main__.K1VIRCandidateTests.test_notebook_script_equivalence_and_valid_plain_python) ... ok
+test_packaging_route_has_no_serving_or_gameplay (__main__.K1VIRCandidateTests.test_packaging_route_has_no_serving_or_gameplay) ... ok
+test_persisted_K1_VIR_and_new_telemetry_identity (__main__.K1VIRCandidateTests.test_persisted_K1_VIR_and_new_telemetry_identity) ... ok
+test_real_SQLite_restore_exact_overlay_and_reject_tampering (__main__.K1VIRCandidateTests.test_real_SQLite_restore_exact_overlay_and_reject_tampering) ... ok
+test_swallowed_game_crash_does_not_become_completion (__main__.K1VIRCandidateTests.test_swallowed_game_crash_does_not_become_completion) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 4.095s
+
+OK
