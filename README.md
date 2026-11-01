@@ -1,92 +1,41 @@
 # ARC-AGI-3 Agent Strategy
 
-Open-source research and engineering record for **ARC Prize 2026 — ARC-AGI-3**.
+Research code and reproducibility record for **ARC Prize 2026 — ARC-AGI-3**.
 
-> **Milestone 2 — 30 Sep 2026:** the successful K2 hidden submission carrier has a public score of **3.10**. An otherwise matched **K0 hidden twin** was submitted the same day with stagnation recovery disabled and was still in hidden rerun/scoring when this README snapshot was written.
+## Final-window update — 2 November 2026 (Georgia)
 
-The project studies how an interactive agent can remain evidence-grounded, auditable, and adaptive under changing or partially uncertain conditions. The repository contains the safety, observation, replay/audit, typed-routing, and evaluation-logging foundations developed during the project. The public Kaggle notebook remains the authoritative competition submission carrier; this repository is not a byte-for-byte mirror of every Kaggle runtime asset.
+The official public leaderboard shows **K0 3.32**, historical **K2 3.10**, V11 **3.07**, and **K1+VIR 2.61**. These are successful Kaggle submission scores, distinct from PUBLIC25 development scores. Final private scores are unknown.
 
-## Milestone 2 experiment
+| Candidate | Public score | Exact saved Kaggle version |
+|---|---:|---|
+| K0, recovery OFF | **3.32** | [Version 1 / 362927490](https://www.kaggle.com/code/tsitsinodzotsenidze/rsii-k0-submission-2?scriptVersionId=362927490) |
+| Historical K2 | **3.10** | [Version 2 / 353983921](https://www.kaggle.com/code/tsitsinodzotsenidze/notebook43f8579dd8?scriptVersionId=353983921) |
+| K1+VIR | **2.61** | [Version 1 / 362929164](https://www.kaggle.com/code/tsitsinodzotsenidze/rsii-k1vir-submission?scriptVersionId=362929164) |
 
-The current comparison isolates one behavioral variable:
+The two highest public scores are the proposed final choices. The preparation observation showed **0/2 selected**; the human competitor must complete and verify final selection in Kaggle. K1+VIR remains part of the research record.
 
-- **K2:** `LOCAL_ANALYZER_STAGNATION_RECOVERY_STREAK=2` — recovery enabled.
-- **K0:** `LOCAL_ANALYZER_STAGNATION_RECOVERY_STREAK=0` — recovery disabled.
+## Competition source and reproducibility
 
-The K0 twin preserves the same model, runtime, integrated source, frozen source identities, seed `1729`, controller, budget logic, and submission logic. This creates a clean hidden comparison of recovery **ON** versus **OFF** using the same carrier.
+The [final-window package](releases/arc3-2026-final/README.md) contains saved-version source transcriptions, hashes, selected development receipts, reproduction instructions, and an ARC3-specific [Solution Writeup draft](docs/ARC3_SOLUTION_WRITEUP_2026.md). The K0 and K1+VIR scripts preserve the exact rendered source text. The K2 notebook is explicitly reconstructed from nine rendered source cells; original notebook metadata and outputs are not claimed.
 
-Current public-score snapshot:
+Model weights, the external source carrier, Kaggle runtime datasets, and the competition environment are external dependencies. This repository alone is not a self-contained executable Kaggle environment. See the [dependency and provenance record](releases/arc3-2026-final/REPRODUCING.md) and [third-party notices](releases/arc3-2026-final/THIRD_PARTY_NOTICES.md).
 
-| Submission | Public Score |
-|---|---:|
-| K2 milestone carrier — Version 2 | **3.10** |
-| V11 baseline | **3.07** |
-| Earlier V12-A K2 | **2.49** |
-| K0 hidden twin — Version 3 | **Pending at snapshot** |
+## Research scope
 
-For exact provenance, hashes, verifier evidence, and timing, see [MILESTONE_2_2026-09-30.md](MILESTONE_2_2026-09-30.md).
+The project asks when recovery helps an interactive agent facing unfamiliar tasks. Mechanism execution, task progress, official scores, and infrastructure failures are recorded separately. Scores from different historical carriers do not by themselves isolate a recovery effect. One development run per condition does not establish replication or statistical significance.
 
-## Repository scope
+The separate combined ARC-AGI-2/ARC-AGI-3 paper remains a broader research deliverable. This repository and its technical writeup document ARC-AGI-3 specifically.
 
-Current `main` includes the implemented foundation for:
+## Reusable foundations
 
-- deterministic reset and seed handling;
-- structural observation validation and provenance-aware transport;
-- typed `ACTION`, `FALLBACK`, and `OBSERVATION_ONLY` routing;
-- replay/audit records with deterministic serialization;
-- owner-bound and revocable audit-read authorization;
-- JSONL/CSV evaluation logging with schema checks;
-- C-08 evaluation-output path safety, including containment, symlink, traversal, and state-change guards;
-- pytest-based regression coverage and a GitHub Actions CI workflow.
+The existing code provides deterministic reset/seed handling, structural observation checks, typed action routing, replay/audit serialization, evaluation logging, and path safety. Existing regression tests and CI remain in place. Repository CI uses **Python 3.11**; this must not be conflated with the measured October Kaggle serving parent, **CPython 3.12.13**. The pinned serving carrier requires the recorded CPython 3.12-compatible host and runtime assets.
 
-The current repository head before this documentation refresh was:
+## Historical records
 
-`6ea243d45b78ad42dd0d61ac5843703117e9bec5` — **Implement C-08 evaluation logger path safety**.
+The dated [Milestone 2 record](MILESTONE_2_2026-09-30.md), [governance record](GOVERNANCE_STATUS_2026-09-30.md), and [project history](PROJECT_HISTORY.md) remain unchanged. Their pending/result statements apply to their original dates. In particular, September descriptions of an intended matched K0/K2 comparison must not be read as proof that all later October conditions form a fully matched causal experiment.
 
-## What is not mirrored here
+## License and attribution
 
-This repository should not be read as a complete packaged copy of the live Kaggle submission environment. In particular, model weights, Kaggle-provided runtime assets, and the exact competition execution container are external to this repository.
+Original project contributions retain this repository's [Apache License 2.0](LICENSE). External model weights, runtime assets, upstream source, and embedded dependencies retain their own terms. The package preserves the Requests license and identifies upstream provenance; the repository license does not relicense external artifacts.
 
-The public Kaggle notebook is the competition-facing source of truth for the submitted carrier. This repository documents and tests reusable project foundations and the research trail around them.
-
-## Research question
-
-Earlier PUBLIC25 testing showed that K0 can occasionally reach a high ceiling but can also be highly variable. A formal paired comparison favored K2 on mean score, while the hidden milestone carrier gives a more direct test under competition scoring.
-
-The practical question is therefore not simply whether recovery exists, but **when recovery helps**. The K0/K2 twin comparison is intended to inform whether later development should use recovery always, never, or selectively under stricter gating.
-
-## Reproducibility notes
-
-Repository CI runs `pytest` under **Python 3.11**.
-
-For the Milestone 2 submission carrier, the competition environment used:
-
-- seed `1729`;
-- GPU: RTX Pro 6000;
-- Internet: OFF;
-- pinned/original Kaggle environment dated 2026-06-30;
-- Qwen3.8 Flash Next NVFP4 runtime/model assets supplied through Kaggle inputs.
-
-The K0 native-factory verifier reported:
-
-```text
-K0_VERIFY_PASS env=0 native_factory=True effective_k=0 seed=1729
-```
-
-## Governance status
-
-For the current implementation/closure index and the relationship between historical issues and later superseding work, see [GOVERNANCE_STATUS_2026-09-30.md](GOVERNANCE_STATUS_2026-09-30.md).
-
-## Project history
-
-The earlier long-form governance README has been preserved as [PROJECT_HISTORY.md](PROJECT_HISTORY.md). It remains useful for chronology, but its status statements may describe an earlier project phase.
-
-## Competition and open source
-
-ARC Prize 2026 — ARC-AGI-3 requires competition submissions through Kaggle. For milestone prizes, Kaggle states that qualifying notebooks must be public under an open-source license by the milestone deadline.
-
-Competition page: https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3
-
-## License
-
-This repository is licensed under the **Apache License 2.0**. See [LICENSE](LICENSE).
+Competition: https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3
