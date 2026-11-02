@@ -1,0 +1,11 @@
+{
+  "size_bytes": 201145,
+  "sha256": "ff48afd724423b8de9ae5e0acc70952ad8d4dc4a5a75ac59516c719adcfe77ca",
+  "source_verified": true,
+  "generated_carrier_executed": false,
+  "public_full_overlay_scan": "PASS, original encoded and decoded full file bodies absent",
+  "unmodified_or_deleted_source_text_in_edit_recipe": false,
+  "gameplay": false,
+  "inference": false
+}
+

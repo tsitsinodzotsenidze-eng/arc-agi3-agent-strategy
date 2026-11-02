@@ -7,8 +7,8 @@
         "name": "Dzotsenidze, Tsitsino"
       }
     ],
-    "version": "2026-final-preparation-1",
-    "description": "ARC Prize 2026 ARC-AGI-3 saved-version carrier source transcriptions, selected development receipts, provenance hashes, and technical writeup. Official observed public scores: K0 3.32, historical K2 3.10, K1+VIR 2.61. Descriptive unreplicated results; no causal recovery claim. Model weights and external source/runtime datasets are not included. K2 is a source-cell reconstruction, not an original downloaded notebook. Original project contributions retain Apache-2.0; external components retain their own terms.",
+    "version": "2026-final-2",
+    "description": "ARC-AGI-3 project carrier/evidence snapshot: exact K0 source; nine historical K2 source cells; K1+VIR template, independently authored VIR adapter and hash-bound numeric edit recipe excluding two complete upstream-derived files pending component-level license clarification. With an authorized exact source carrier, reconstruction reproduces the original captured K1 script. Observed rounded public scores: K0 3.32, historical K2 3.10, K1+VIR 2.61. Descriptive unreplicated observations, separate from PUBLIC25 development receipts. Original contributions retain Apache-2.0; external terms remain separate. Private source SQLite, model weights, runtime layers and hidden games are not included. This is not a complete publicly accessible runtime environment or the combined ARC2/ARC3 manuscript.",
     "access_right": "open",
     "license": "Apache-2.0",
     "keywords": [
@@ -20,7 +20,7 @@
     ],
     "related_identifiers": [
       {
-        "identifier": "https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy",
+        "identifier": "https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/releases/tag/arc3-2026-final-2",
         "relation": "isSupplementTo",
         "scheme": "url"
       }
@@ -28,14 +28,16 @@
   },
   "preparation_status": {
     "published": false,
-    "doi": null,
-    "existing_record_inspected": false,
+    "doi": "10.5281/zenodo.23869166",
+    "existing_record_inspected": true,
     "review_required": [
-      "Inspect existing Zenodo records to choose new record versus new version",
-      "Confirm external license scope and accessibility",
-      "Confirm final GitHub commit/release URL",
-      "Replace preparation version with actual released version"
+      "Verify publication of correction release arc3-2026-final-2",
+      "Replace the original complete ZIP in the existing Zenodo draft with the corrected public ZIP and verify its checksum",
+      "Human final Zenodo publication and separate Kaggle final selections"
     ],
-    "note": "Metadata draft only. No affiliation, ORCID, DOI, publication date, or existing record has been invented."
+    "note": "Metadata draft only. No affiliation, ORCID, DOI, publication date, or existing record has been invented.",
+    "doi_status": "reserved, not yet published",
+    "zenodo_draft": "https://zenodo.org/uploads/23869166"
   }
 }
+

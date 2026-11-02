@@ -2,11 +2,11 @@
 
 ## Canonical carriers
 
-Use the saved version URLs in `provenance/source_captures.json`. Do not substitute the notebook's latest version: the historical K2 result belongs to saved **Version 2 / 353983921**, while that notebook has later versions. Source transcriptions are preserved as captured, without execution or header edits.
+Use the saved version URLs in `provenance/source_captures.json`. Do not substitute the notebook's latest version: historical K2 belongs to saved **Version 2 / 353983921**, while that notebook has later versions. K0 is preserved as captured. K1+VIR is supplied through `reconstruction/`: an authorized exact base source plus the provided numeric edits reproduces the captured submitted script. The public template is not directly executable. See `reconstruction/README.md`.
 
 ## K0 and K1+VIR attached inputs
 
-The K0 saved-version Input UI showed **11 inputs**: the ARC-AGI-3 competition, three datasets, and seven model variants. The datasets were `Qwen3.8 Flash Next vLLM NVFP4 runtime v1`, `Recovery Study II P01 Source v1.3`, and `Recovery Study II Source v1.3 SQLite`. The K0 spec records `alykassem202/qwen38-flash-next-vllm-nvfp4-runtime-v1` and `tsitsinodzotsenidze/recovery-study-ii-p01-source-v1-3`. The SQLite file is identified by its exact filename and payload hash below; a dataset URL/version was not recovered in this preparation and must not be guessed.
+The K0 saved-version Input UI showed **11 inputs**: the ARC-AGI-3 competition, three datasets, and seven model variants. The datasets were `Qwen3.8 Flash Next vLLM NVFP4 runtime v1`, `Recovery Study II P01 Source v1.3`, and `Recovery Study II Source v1.3 SQLite`. The K0 spec records `alykassem202/qwen38-flash-next-vllm-nvfp4-runtime-v1` and `tsitsinodzotsenidze/recovery-study-ii-p01-source-v1-3`. The SQLite input is `tsitsinodzotsenidze/recovery-study-ii-source-v1-3-sqlite`, Version 1: https://www.kaggle.com/datasets/tsitsinodzotsenidze/recovery-study-ii-source-v1-3-sqlite . Its live page displays Private and License: Unknown. It is not included in the public package; authorized access is required for exact K1 reconstruction.
 
 The seven version-1 model inputs are under `tsitsinodzotsenidze/rsii-qwen38-nvfp4-exact-r7b71922/PyTorch/`: `metadata-full`, then `weights-01` through `weights-06`. The full saved-version Input page is the authoritative attachment list. Dataset accessibility and licenses must be verified before claiming independent reproduction is complete.
 
@@ -27,3 +27,4 @@ The K0 spec and source preserve frozen-policy identities and recovery `k=0`. The
 3. The human competitor submits the exact saved notebook version and output file, then verifies successful scoring and final selections in Kaggle. Do not replace the official exporter with a local writer or treat a placeholder packaging output as scored predictions.
 
 The archive does not reproduce Kaggle's hidden games or reveal their content. Public scores are descriptive competition outcomes. Full gameplay archive auditing and repeated matched experiments remain separate scientific work.
+

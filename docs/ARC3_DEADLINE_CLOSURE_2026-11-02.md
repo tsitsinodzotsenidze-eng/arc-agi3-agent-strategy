@@ -11,7 +11,7 @@ The current K0 and K1+VIR notebook pages display Private. Public release of the 
 ## Prepared here
 
 * Current official result record and exact saved-version links.
-* K0/K1+VIR source transcriptions, clearly labeled K2 reconstruction, hashes, selected development receipts, reproduction notes, third-party notices.
+* Exact K0 source, K1+VIR hash-bound reconstruction without two full upstream-derived overlay files, clearly labeled K2 reconstruction, hashes, selected development receipts, reproduction notes and third-party notices.
 * Refreshed repository README and ARC3-specific Solution Writeup draft.
 * Zenodo metadata draft and a deterministic release archive.
 

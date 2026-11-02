@@ -17,5 +17,17 @@
     "Library transfer metadata"
   ],
   "k0_and_k1_embedded_helpers": "PASS, every embedded helper hash checked; Python helpers parsed and bounded credential-pattern scan passed",
-  "astra_required_edits": "Incorporated; external publication/license completion items remain explicit"
+  "astra_required_edits": "Incorporated; external publication/license completion items remain explicit",
+  "public_k1_scope": "Complete upstream-derived tool_agent.py and solver.py bodies omitted; numeric edits include inserted project text only",
+  "reconstruction_test": {
+    "size_bytes": 201145,
+    "sha256": "ff48afd724423b8de9ae5e0acc70952ad8d4dc4a5a75ac59516c719adcfe77ca",
+    "source_verified": true,
+    "generated_carrier_executed": false,
+    "public_full_overlay_scan": "PASS, original encoded and decoded full file bodies absent",
+    "unmodified_or_deleted_source_text_in_edit_recipe": false,
+    "gameplay": false,
+    "inference": false
+  },
+  "original_complete_archive": "Retained separately, unchanged; not the public release ZIP"
 }

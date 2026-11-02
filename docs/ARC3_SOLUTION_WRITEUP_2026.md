@@ -43,7 +43,7 @@ The source record separates policy changes from carrier and infrastructure chang
 
 Earlier work exposed source-version mismatches, input-removing notebook imports, and GPU-process accounting issues. Such events belong in the engineering chronology. A stopped mount attempt, a successful readiness diagnostic, and a completed gameplay arm are different outcomes. The October measured serving parent used CPython 3.12.13, while repository foundation CI uses Python 3.11. Recording that distinction prevents an apparently successful repository test from being misrepresented as proof of live serving compatibility.
 
-The release retains exact rendered K0/K1+VIR script transcriptions and nine source cells from the saved K2 version. The K1+VIR transcription was verified byte-identical to the prepared code-only artifact. The K2 notebook is explicitly reconstructed; original notebook metadata and outputs are not claimed. Selected R6m1 result and finalization JSON files are included, with hashes. Full model weights, hidden games, external source bundles, and the complete gameplay archive are not republished in this package.
+The corrected release retains exact rendered K0 source and nine source cells from saved K2. K1+VIR is distributed as a template, independently authored adapter and changes-only reconstruction recipe; two full upstream-derived overlay file bodies are excluded pending license clarification. Reconstruction against the authorized exact source reproduced the original captured 201,145-byte script and its preserved SHA-256. The K2 notebook is explicitly reconstructed; original notebook metadata and outputs are not claimed. Selected R6m1 result and finalization JSON files are included, with hashes. Full model weights, hidden games, external source bundles, and the complete gameplay archive are not republished in this package.
 
 ## Limits and next analysis
 
@@ -56,3 +56,4 @@ Our broader interdisciplinary manuscript can discuss human–AI collaboration, o
 Repository: https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy
 
 Exact notebook URLs, capture methods, configuration, selected receipts, and hashes are in `releases/arc3-2026-final/`. External source/model licenses and public accessibility must be checked before claiming reproduction is complete. Zenodo deposit/DOI and the official Kaggle writeup association remain to be completed and must not be inferred from this draft.
+
