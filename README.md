@@ -2,6 +2,14 @@
 
 Research code and reproducibility record for **ARC Prize 2026 — ARC-AGI-3**.
 
+## Published software release and Zenodo archive
+
+The [GitHub Release **arc3-2026-final-1**](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/releases/tag/arc3-2026-final-1) was published on **2 November 2026**, pinned to verified merge commit `a327427e39b2b750927021983d68bd43d7cdb497`. This is the source and technical-evidence release for ARC-AGI-3, **not** the separate combined ARC2+ARC3 manuscript.
+
+The prepared Zenodo record has **reserved version DOI [10.5281/zenodo.23869166](https://doi.org/10.5281/zenodo.23869166)**. **DOI registration/publication remains pending until the existing Zenodo draft is published**; do not cite it as a published record until then. Its previously uploaded and verified ZIP is a separately prepared archive snapshot, and must not be represented as byte-identical to GitHub's automatically generated source archive.
+
+See the [rights/provenance audit](docs/ARC3_PUBLICATION_LICENSE_AND_DEPOSIT_AUDIT_2026-11-02.md) and [final Zenodo description/release notes](zenodo/ARC3_FINAL_DESCRIPTION_AND_RELEASE_NOTES_2026-11-02.md) for creator, external dependency, license and archive-scope details.
+
 ## Final-window update — 2 November 2026 (Georgia)
 
 The official public leaderboard shows **K0 3.32**, historical **K2 3.10**, V11 **3.07**, and **K1+VIR 2.61**. These are successful Kaggle submission scores, distinct from PUBLIC25 development scores. Final private scores are unknown.
