@@ -8,8 +8,8 @@
     "size_bytes": 1719
   },
   "README.md": {
-    "sha256": "6f9a9a0d6a50f9b13b5d73413b1104238600658ce193d68e6ab5a58485c7465a",
-    "size_bytes": 5923
+    "sha256": "d0ab4a19acf10eb4e2a0fe6dfc287429133b476d171f15c2111a7c7cbb86b9a7",
+    "size_bytes": 5906
   },
   "docs/ARC3_ASTRA_RELEASE_REVIEW_2026-11-02.md": {
     "sha256": "baaf562bd4ed9e7ddf1024501cc1548f94c650797ef6ec607018de27864ee3e6",
@@ -144,4 +144,3 @@
     "size_bytes": 2597
   }
 }
-
