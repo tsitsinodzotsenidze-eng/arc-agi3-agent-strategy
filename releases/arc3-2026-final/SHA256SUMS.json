@@ -24,8 +24,8 @@
     "size_bytes": 2834
   },
   "docs/ARC3_PUBLICATION_LICENSE_AND_DEPOSIT_AUDIT_2026-11-02.md": {
-    "sha256": "51e1e175d8aec6578c850055150eed6df3645c1b5b78b192bde116d24bb616a4",
-    "size_bytes": 7697
+    "sha256": "b2f18136aa005a07b79b686ed9f2426fef09a1ad4280a01a0fe339d81a96b064",
+    "size_bytes": 7590
   },
   "docs/ARC3_SOLUTION_WRITEUP_2026.md": {
     "sha256": "605d7e62f12e3bd0284a485967de47c9747f6c3766518d4bbcb7b5fcf41ac2e3",
@@ -108,8 +108,8 @@
     "size_bytes": 1774
   },
   "releases/arc3-2026-final/reconstruction/K1VIR_carrier.py.template": {
-    "sha256": "059be8d8dc3d7d260817766b36bfd585bfda726028b0b39a4980ee49ba92d10a",
-    "size_bytes": 152976
+    "sha256": "a6d5b5e0ba2e577f1cd27ea18d30da327bb9e49f5ab737058c28295788e0ccb2",
+    "size_bytes": 152975
   },
   "releases/arc3-2026-final/reconstruction/K1VIR_source_edits.json": {
     "sha256": "d5a48deb797a65417166aa5edfc1b572b54d4bd302c56a521126f26a92b8eac6",

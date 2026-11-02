@@ -28,7 +28,7 @@ K2 code is reconstructed from nine source cells, **not** the byte-exact original
 
 ## Publication procedure / archive integrity
 
-- The previously uploaded and verified ZIP corresponds to the **original preparation snapshot**. Files in that ZIP must remain unchanged if its identity is to remain valid. This additional outside-the-ZIP note can be linked from the final repository/Zenodo metadata without silently altering that ZIP.
+- The original ZIP retains its historical identity. This revised audit is included in the separately rebuilt corrected ZIP, which must replace the original Zenodo draft asset before publication.
 - **If any packaged file is changed**, rebuild the archive, regenerate its SHA-256 manifest and ZIP digest, recheck the contents and **replace/re-upload the Zenodo draft asset before publication**. Never claim that a changed ZIP is byte-identical to the previous upload.
 - First publish/merge the examined GitHub source. Create a stable GitHub release/tag, record the exact commit hash and release URL. Zenodo's related identifier should link to that release; the ZIP/description must identify the snapshot it represents, including any separate supplementary note.
 - Zenodo draft must show the correct creator, artifact type (software), reserved DOI, descriptive-only results, external-code/weight exclusions and appropriate rights/attribution statement. **Do not state that the DOI is published until Zenodo confirms publication**.
