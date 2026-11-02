@@ -1,0 +1,48 @@
+name: ARC3 final release (one-shot)
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/arc3-one-shot-release.yml'
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish pinned ARC3 release if absent
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = "tsitsinodzotsenidze-eng/arc-agi3-agent-strategy"
+          if gh release view arc3-2026-final-1 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'ARC3 release already exists; nothing to do.'
+            exit 0
+          fi
+          cat > arc3-release-notes.md <<'RELEASE_NOTES'
+          ARC-AGI-3 Recovery Study II competition carrier source and reproducibility archive (2026).
+
+          Official rounded public Kaggle scores: K0 (recovery OFF) 3.32, historical K2 3.10, K1+VIR 2.61. These are descriptive observations, not a replicated causal recovery estimate; no final private scores are claimed.
+
+          This GitHub release pins the reviewed source snapshot. The repository contains captured rendered source for the exact K0 and K1+VIR saved Kaggle versions, the nine-source-cell historical K2 reconstruction, selected development evidence, dependency identities, SHA-256 manifests, reproduction instructions, and an ARC3-specific Solution Writeup draft. Full 135 GB model weights, external source/runtime datasets, and Kaggle hidden tests are not distributed.
+
+          Original repository contributions retain the repository Apache-2.0 license; upstream and embedded third-party material retain their own terms. See releases/arc3-2026-final/THIRD_PARTY_NOTICES.md and docs/ARC3_PUBLICATION_LICENSE_AND_DEPOSIT_AUDIT_2026-11-02.md. This release does not assert that all external inputs are publicly accessible or that every third-party license has been independently certified.
+
+          Zenodo: reserved version DOI 10.5281/zenodo.23869166; the DOI is not registered until the user publishes the existing Zenodo draft. The uploaded, hash-verified Zenodo ZIP is a separate prepared archive snapshot. GitHub automatically generated source archives are not represented as byte-identical to that ZIP.
+
+          The unified ARC-AGI-2 + ARC-AGI-3 paper is a separate scholarly work.
+
+          Saved Kaggle versions:
+          K0: https://www.kaggle.com/code/tsitsinodzotsenidze/rsii-k0-submission-2?scriptVersionId=362927490
+          Historical K2: https://www.kaggle.com/code/tsitsinodzotsenidze/notebook43f8579dd8?scriptVersionId=353983921
+          K1+VIR: https://www.kaggle.com/code/tsitsinodzotsenidze/rsii-k1vir-submission?scriptVersionId=362929164
+          RELEASE_NOTES
+          gh release create arc3-2026-final-1 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target a327427e39b2b750927021983d68bd43d7cdb497 \
+            --title "ARC-AGI-3 Recovery Study II — final competition source and reproducibility record" \
+            --notes-file arc3-release-notes.md \
+            --latest
