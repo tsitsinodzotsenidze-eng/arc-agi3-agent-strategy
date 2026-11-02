@@ -1,0 +1,117 @@
+{
+  "schema": "arc3-hash-bound-source-edits-v1",
+  "source_zip_sha256": "6f65ba6b720e304fd66dcec701fe30632896d781db09622bf39773364b7567d1",
+  "original_carrier_sha256": "ff48afd724423b8de9ae5e0acc70952ad8d4dc4a5a75ac59516c719adcfe77ca",
+  "original_script_version_id": 362929164,
+  "source_dataset": "https://www.kaggle.com/datasets/tsitsinodzotsenidze/recovery-study-ii-source-v1-3-sqlite",
+  "source_dataset_version": 1,
+  "files": [
+    {
+      "path": "src/ARC3-Inference/inference/agent/tool_agent.py",
+      "base_sha256": "321550ee0e7d965a2c7e283c0ec0234bd4a3b11f8aa25bcbd565561b233a85c0",
+      "target_sha256": "e5c2e88673e6fd43944ff2bd3d1f5c756fd1106293be8813100f3643c25af343",
+      "placeholder": "__ARC3_RECONSTRUCT_TOOL_AGENT__",
+      "edits": [
+        {
+          "start": 4,
+          "delete": 0,
+          "insert": "from inference.agent.vir_adapter import VIRMixin\n"
+        },
+        {
+          "start": 157,
+          "delete": 1,
+          "insert": "    \"because one completed response produced no semantic tool call and no environment action. \"\n"
+        },
+        {
+          "start": 1034,
+          "delete": 1,
+          "insert": "class ToolAgent(VIRMixin):\n"
+        },
+        {
+          "start": 1132,
+          "delete": 0,
+          "insert": "        self._vir_initialize()\n"
+        },
+        {
+          "start": 2148,
+          "delete": 7,
+          "insert": "        _vir_context = self._combined_begin_entry(state_path, action_num, current_frame,\n            history_entries, valid_actions, should_stop, _STAGNATION_RECOVERY_ADDENDUM)\n        if _vir_context is not None:\n            user_prompt = _vir_context['prompt']\n        else:\n            user_prompt = self._build_user_prompt(\n                action_num,\n                valid_actions=valid_actions,\n                current_frame=current_frame,\n                history_entries=history_entries,\n                previous_step_summary=self._last_step_summary,\n            )\n"
+        },
+        {
+          "start": 2183,
+          "delete": 5,
+          "insert": "        if _vir_context is not None:\n            messages = _vir_context['messages']\n        else:\n            messages: list[dict[str, Any]] = self._trim_messages_for_context(\n                [{\"role\": \"system\", \"content\": self._system_prompt}, *self._history_messages, self._build_user_message(user_prompt, current_frame)],\n                tools=self._tools(state_path),\n                preserve_recent=1,\n            )\n"
+        },
+        {
+          "start": 2201,
+          "delete": 0,
+          "insert": "            self._k1_invalidate(reason)\n"
+        },
+        {
+          "start": 2285,
+          "delete": 0,
+          "insert": "                    self._vir_before_request(latest_request_id, messages)\n"
+        },
+        {
+          "start": 2286,
+          "delete": 0,
+          "insert": "                    self._vir_after_response(latest_request_id)\n"
+        },
+        {
+          "start": 2304,
+          "delete": 0,
+          "insert": "                    self._vir_request_failed(latest_request_id, exc)\n"
+        },
+        {
+          "start": 2366,
+          "delete": 0,
+          "insert": "                recovery_triggered = self._combined_consider_k1(\n                    qualifies_response, recovery_triggered, latest_response_id, latest_request_id)\n"
+        },
+        {
+          "start": 2459,
+          "delete": 40,
+          "insert": "                    rebuilt = self._k1_prepare(state_path, action_num, current_frame, history_entries,\n                                               valid_actions, should_stop)\n                    if rebuilt is not None:\n                        messages = rebuilt['messages']\n"
+        },
+        {
+          "start": 2500,
+          "delete": 75,
+          "insert": "                        captured_reasoning = \"\"\n"
+        },
+        {
+          "start": 2576,
+          "delete": 9,
+          "insert": "                            append_transcript(\"K1 RESPONSE RECOVERY\", rebuilt['prompt'])\n                        except Exception:\n                            pass\n                        continue\n                    # Transactional construction failure retains original context;\n                    # process this ordinary response and followup normally.\n"
+        }
+      ]
+    },
+    {
+      "path": "src/ARC3-Inference/inference/framework/solver.py",
+      "base_sha256": "65ddfcdbe8c24fdc31246ff018b51469827b21c38995243a36a818adbed33370",
+      "target_sha256": "dae2596d8f99340195f17e8ec592ea6bf26f020de86ac8e5323a1366e96f5e03",
+      "placeholder": "__ARC3_RECONSTRUCT_SOLVER__",
+      "edits": [
+        {
+          "start": 206,
+          "delete": 0,
+          "insert": "        self.analyzer.vir_seed(self.state_path, self.action_count,\n            self.timing_payload()['run_elapsed_seconds'], self.current_frame().level,\n            game_id=self.game.game_run.game_id if self.game.game_run is not None else str(self.game_index))\n\n"
+        },
+        {
+          "start": 335,
+          "delete": 0,
+          "insert": "            self._capture_vir_final_summary()\n"
+        },
+        {
+          "start": 338,
+          "delete": 0,
+          "insert": "\n    def _capture_vir_final_summary(self) -> None:\n        # This affects VIR evidence only. OFF and gameplay decisions are unchanged.\n        if not getattr(self.analyzer, \"_combined_enabled\", False):\n            return\n        run = self.game.game_run\n        if run is None:\n            return\n        record = {\"schema\": \"combined-recovery-final-snapshot-v1\", \"run_state\": run.state,\n                  \"final_snapshot_write_ok\": True}\n        try:\n            record[\"summary\"] = self.analyzer.vir_finalize(\n                run_state=run.state, final_score=run.final_score)\n            path = self.state_path.with_name(self.state_path.stem + \"_combined_recovery_final.json\")\n            temporary = path.with_name(path.name + \".tmp\")\n            temporary.write_text(json.dumps(record, separators=(\",\", \":\")) + \"\\n\", encoding=\"utf-8\")\n            temporary.replace(path)\n        except Exception as exc:\n            record[\"final_snapshot_write_ok\"] = False\n            record[\"finalization_error\"] = type(exc).__name__\n        # Native GameRun.to_json_dict persists this receipt independently of\n        # VIR sidecars, including write-error counts from the live analyzer.\n        run.solver_note = (run.solver_note or \"\") + \"\\nCOMBINED_RECOVERY_FINAL_SUMMARY \" + json.dumps(record, separators=(\",\", \":\"))\n"
+        },
+        {
+          "start": 730,
+          "delete": 0,
+          "insert": "        self.analyzer.vir_observe(self.state_path, payload, current_frame.grid)\n"
+        }
+      ]
+    }
+  ]
+}
+

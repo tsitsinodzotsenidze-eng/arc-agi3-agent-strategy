@@ -4,6 +4,8 @@ Research code and reproducibility record for **ARC Prize 2026 — ARC-AGI-3**.
 
 ## Published software release and Zenodo archive
 
+**Distribution-scope correction:** the current revision replaces the complete K1+VIR script with a hash-bound reconstruction kit. Two complete upstream-derived overlay files are excluded pending an explicit component-level license grant. The saved Kaggle version and original captured-source SHA-256 are unchanged. See [the correction record](docs/ARC3_DISTRIBUTION_CORRECTION_2026-11-02.md).
+
 The [GitHub Release **arc3-2026-final-1**](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/releases/tag/arc3-2026-final-1) was published on **2 November 2026**, pinned to verified merge commit `a327427e39b2b750927021983d68bd43d7cdb497`. This is the source and technical-evidence release for ARC-AGI-3, **not** the separate combined ARC2+ARC3 manuscript.
 
 The prepared Zenodo record has **reserved version DOI [10.5281/zenodo.23869166](https://doi.org/10.5281/zenodo.23869166)**. **DOI registration/publication remains pending until the existing Zenodo draft is published**; do not cite it as a published record until then. Its previously uploaded and verified ZIP is a separately prepared archive snapshot, and must not be represented as byte-identical to GitHub's automatically generated source archive.
@@ -24,7 +26,7 @@ The two highest public scores are the proposed final choices. The preparation ob
 
 ## Competition source and reproducibility
 
-The [final-window package](releases/arc3-2026-final/README.md) contains saved-version source transcriptions, hashes, selected development receipts, reproduction instructions, and an ARC3-specific [Solution Writeup draft](docs/ARC3_SOLUTION_WRITEUP_2026.md). The K0 and K1+VIR scripts preserve the exact rendered source text. The K2 notebook is explicitly reconstructed from nine rendered source cells; original notebook metadata and outputs are not claimed.
+The [final-window package](releases/arc3-2026-final/README.md) contains saved-version source transcriptions, hashes, selected development receipts, reproduction instructions, and an ARC3-specific [Solution Writeup draft](docs/ARC3_SOLUTION_WRITEUP_2026.md). K0 preserves its exact rendered source text. K1+VIR is provided as a template, original VIR adapter, changes-only recipe, and reconstruction utility; authorized exact upstream source is required to reconstruct the original submitted carrier. The K2 notebook is explicitly reconstructed from nine rendered source cells; original notebook metadata and outputs are not claimed.
 
 Model weights, the external source carrier, Kaggle runtime datasets, and the competition environment are external dependencies. This repository alone is not a self-contained executable Kaggle environment. See the [dependency and provenance record](releases/arc3-2026-final/REPRODUCING.md) and [third-party notices](releases/arc3-2026-final/THIRD_PARTY_NOTICES.md).
 
@@ -47,3 +49,4 @@ The dated [Milestone 2 record](MILESTONE_2_2026-09-30.md), [governance record](G
 Original project contributions retain this repository's [Apache License 2.0](LICENSE). External model weights, runtime assets, upstream source, and embedded dependencies retain their own terms. The package preserves the Requests license and identifies upstream provenance; the repository license does not relicense external artifacts.
 
 Competition: https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3
+

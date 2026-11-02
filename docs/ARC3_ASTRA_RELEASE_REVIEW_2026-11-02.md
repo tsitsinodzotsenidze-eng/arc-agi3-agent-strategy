@@ -14,3 +14,7 @@ Required edits incorporated:
 The reviewer found the official/development distinction, descriptive 0.71-point contrast, unreplicated/noncausal limits, infrastructure-error treatment, handoff-only attribution of the K0 development aggregate, and R6m1 mechanism/result statements appropriate. K0 3.32 plus historical K2 3.10 is a defensible public-score-based final-selection proposal. K1+VIR remains research evidence independently of final selection.
 
 Outstanding external completion items: human final selection and verified 2/2 state; intended Kaggle notebook visibility; input accessibility and applicable licenses; GitHub merge/release; Zenodo authentication, prior-record inspection and deposit/DOI. No Zenodo-specific mandatory code-deadline requirement was verified. Staff clarification and the separate unified manuscript remain distinct.
+
+## Follow-up on public distribution scope
+
+After the initial review, component-level upstream licensing remained unresolved. Astra recommended a trimmed public K1 reconstruction kit, exclusion of the two complete upstream-derived files, preservation of original version/hash references and a separate unchanged complete archive. The current public revision implements that recommendation. A source-only check reconstructed the captured K1 script exactly without executing it. Earlier PR/Git history is not claimed erased.

@@ -3,45 +3,53 @@
     "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
     "size_bytes": 11357
   },
+  "PUBLICATION_STATUS_2026-11-02.md": {
+    "sha256": "8852bc3c4a14a94117423ca1e07a62fa15eec9725b07743be4261a1cbd8ac1b0",
+    "size_bytes": 1719
+  },
   "README.md": {
-    "sha256": "fd87488bc92fa699968c06cc11d599485b10a36179d9c31da5424a8d4e6dc73d",
-    "size_bytes": 3940
+    "sha256": "c3b1edbabd1dd165a04877cb28bdaf2d948a12f6603d31b6a72407b9e865e5c6",
+    "size_bytes": 5660
   },
   "docs/ARC3_ASTRA_RELEASE_REVIEW_2026-11-02.md": {
-    "sha256": "563913c94d376d66b16a2083f5129912fb0fd8116849f890766db7b238f886b9",
-    "size_bytes": 1910
+    "sha256": "baaf562bd4ed9e7ddf1024501cc1548f94c650797ef6ec607018de27864ee3e6",
+    "size_bytes": 2433
   },
   "docs/ARC3_DEADLINE_CLOSURE_2026-11-02.md": {
-    "sha256": "457ace3cd0604a17ec313a49e1bb636123bd5b1ef0f17ce551dde1b9e8d2c346",
-    "size_bytes": 3655
+    "sha256": "62c1a899a06e236c5ed9f81fccb2351214620533d63a28d5d06c11d934beb39c",
+    "size_bytes": 3724
+  },
+  "docs/ARC3_DISTRIBUTION_CORRECTION_2026-11-02.md": {
+    "sha256": "beac9580722bd58179ff6264ab10ee99162f537cdde53e2d5988f61f9ece0fc5",
+    "size_bytes": 2834
+  },
+  "docs/ARC3_PUBLICATION_LICENSE_AND_DEPOSIT_AUDIT_2026-11-02.md": {
+    "sha256": "51e1e175d8aec6578c850055150eed6df3645c1b5b78b192bde116d24bb616a4",
+    "size_bytes": 7697
   },
   "docs/ARC3_SOLUTION_WRITEUP_2026.md": {
-    "sha256": "b2c501c3fd33d947676ad27396108f2b4029dbbc82841cde33f7d33bde8455f7",
-    "size_bytes": 7402
+    "sha256": "605d7e62f12e3bd0284a485967de47c9747f6c3766518d4bbcb7b5fcf41ac2e3",
+    "size_bytes": 7619
   },
   "releases/arc3-2026-final/README.md": {
-    "sha256": "19071b5dfeb4421ec3a66da60659ff7da14cd11bc3b100eca58805ddba3aa394",
-    "size_bytes": 1578
+    "sha256": "75a457192f40f6a1a60ab7a9a441426d4811f5f49d259ce43bee13e2c2281454",
+    "size_bytes": 1934
   },
   "releases/arc3-2026-final/REPRODUCING.md": {
-    "sha256": "ac703d74e20392f46306de8e8ae351d0edc921e24dfec0ec19df185077efcc3f",
-    "size_bytes": 4540
+    "sha256": "870c8930b38575c11ee8f3841a71a3ac6cf845b8d027da48082a06bc263cdd88",
+    "size_bytes": 4882
   },
   "releases/arc3-2026-final/THIRD_PARTY_NOTICES.md": {
-    "sha256": "e272350dffe3ca027022647f50667dfbac711e290b488eb9d9e00649f8fd57bd",
-    "size_bytes": 2339
+    "sha256": "e97faa75c485e38348a9a492633eab5dcf67698114f673e2e9b0d9163376ed33",
+    "size_bytes": 3000
   },
   "releases/arc3-2026-final/VALIDATION.json": {
-    "sha256": "b41ee38c5a825142f4b929ab4b5eb3d9ce65175f0120b86569721facd88fd34e",
-    "size_bytes": 1055
+    "sha256": "aaf4d38faa2e1218f3fa328d885b0eb8db6989c80a93af2f2584e248337f01b2",
+    "size_bytes": 1704
   },
   "releases/arc3-2026-final/code/K0_script_362927490.py": {
     "sha256": "82ff0b7ade1db5fc05ad8ea0b091811c931cceaddd43fc5ab592d52e1721dc4c",
     "size_bytes": 141697
-  },
-  "releases/arc3-2026-final/code/K1VIR_script_362929164.py": {
-    "sha256": "ff48afd724423b8de9ae5e0acc70952ad8d4dc4a5a75ac59516c719adcfe77ca",
-    "size_bytes": 201145
   },
   "releases/arc3-2026-final/code/K2_reconstructed_353983921.ipynb": {
     "sha256": "7faecf52ab328941203a4f8ab55083e57dccce1dd4042de70fb2c7429d5ee24a",
@@ -96,15 +104,43 @@
     "size_bytes": 23513
   },
   "releases/arc3-2026-final/provenance/source_captures.json": {
-    "sha256": "802e2b55b8814bf50e8cabcb3967a194f75d3a84977a6dfddfabd0cb81cdc6c8",
-    "size_bytes": 1454
+    "sha256": "3403303a70d7c68a58314bbe64026a260ac0b2d6441d5c11da9565076cc68bef",
+    "size_bytes": 1774
+  },
+  "releases/arc3-2026-final/reconstruction/K1VIR_carrier.py.template": {
+    "sha256": "059be8d8dc3d7d260817766b36bfd585bfda726028b0b39a4980ee49ba92d10a",
+    "size_bytes": 152976
+  },
+  "releases/arc3-2026-final/reconstruction/K1VIR_source_edits.json": {
+    "sha256": "d5a48deb797a65417166aa5edfc1b572b54d4bd302c56a521126f26a92b8eac6",
+    "size_bytes": 6874
+  },
+  "releases/arc3-2026-final/reconstruction/README.md": {
+    "sha256": "b3615f4c5c97d0bfc63c7a9ca9477bd94920d072d6d8c45184efb67192d26edf",
+    "size_bytes": 2055
+  },
+  "releases/arc3-2026-final/reconstruction/RECONSTRUCTION_CHECK.json": {
+    "sha256": "6ff96a11b9636ff84b1d448db390c439f7872aa82e9ed8797685b038b657d5a5",
+    "size_bytes": 370
+  },
+  "releases/arc3-2026-final/reconstruction/reconstruct_k1vir.py": {
+    "sha256": "e5c5392f751162ed8e0b57a47be8df56c876eb9689cae66968769e0f93391582",
+    "size_bytes": 2747
+  },
+  "releases/arc3-2026-final/reconstruction/vir_adapter.py": {
+    "sha256": "0d4307e25f51f9e658acabd91dba28480ede5cc9941643cb0f142e1222a381cc",
+    "size_bytes": 21389
   },
   "releases/arc3-2026-final/third_party/requests-2.32.5-LICENSE": {
     "sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
     "size_bytes": 10142
   },
   "zenodo/ARC3_2026_metadata_draft.json": {
-    "sha256": "ab830c916b50227d88e59df047f50b59f2bf70e5c899660e64ff4bf9074fa9e8",
-    "size_bytes": 1742
+    "sha256": "24f188a67778e71c55be11d410963c382ae8aa5cb623baf9278a6da067b9454c",
+    "size_bytes": 2189
+  },
+  "zenodo/ARC3_FINAL_DESCRIPTION_AND_RELEASE_NOTES_2026-11-02.md": {
+    "sha256": "a9ad842edfefba8572224ed2276d295b9a7b68cad5b5d843eeacc7cec52db3a5",
+    "size_bytes": 2597
   }
 }
