@@ -31,5 +31,19 @@
       "bytes": 83995,
       "sha256": "cc51331549f36274f2bcb96fceb4636c488cae7e88aad6c3b502a8def05949ee"
     }
-  ]
+  ],
+  "revisions": [
+    {
+      "observed_at_utc": "2026-11-03T01:25:49.159509+00:00",
+      "change": "Added a Code and archive section immediately before Question and approach, with direct GitHub and Zenodo DOI links; all other Markdown preserved.",
+      "posted_markdown_body_sha256": "dab46f0202423b4c95d16f312687b665a342886420845282031cf0d01a1395c0",
+      "publish_confirmation": "Your Writeup has been published.",
+      "screenshot": {
+        "filename": "kaggle_writeup_resource_links_20261103.jpg",
+        "bytes": 122912,
+        "sha256": "df0f218d7b6b382b82477be793155537dd7ea9314b52cfc3710f8856cdf7ffa8"
+      }
+    }
+  ],
+  "latest_posted_markdown_body_sha256": "dab46f0202423b4c95d16f312687b665a342886420845282031cf0d01a1395c0"
 }

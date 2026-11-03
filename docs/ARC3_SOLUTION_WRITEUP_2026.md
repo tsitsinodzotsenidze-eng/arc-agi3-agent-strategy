@@ -8,6 +8,11 @@
 
 Author: Tsitsino Dzotsenidze. This is an ARC3-specific technical account. The broader joint ARC-AGI-2/ARC-AGI-3 paper is a separate manuscript.
 
+## Code and archive
+
+- **GitHub — code and reproducibility records:** [arc-agi3-agent-strategy](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy)
+- **Zenodo — archived release and DOI:** [10.5281/zenodo.23869166](https://zenodo.org/records/23869166)
+
 ## Question and approach
 
 Our project examines how an interactive language-model agent responds when progress stalls in an unfamiliar game. The central question is when a recovery intervention helps, and which observations can support that conclusion. We distinguish a recovery mechanism being executed, a subsequent action being taken, progress in a game, and an official competition score. These are related observations, but none is a substitute for the others.
