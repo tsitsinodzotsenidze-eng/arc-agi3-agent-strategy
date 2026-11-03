@@ -1,6 +1,6 @@
 # Recovery, task progress, and execution evidence in ARC-AGI-3
 
-**ARC-AGI-3 technical Solution Writeup — draft, 2 November 2026 (Georgia)**
+**ARC-AGI-3 technical Solution Writeup — draft, updated 3 November 2026 (Georgia)**
 
 Author: Tsitsino Dzotsenidze. This is an ARC3-specific technical account. The broader joint ARC-AGI-2/ARC-AGI-3 paper is a separate manuscript. This draft has not been posted as an official Kaggle Solution Writeup.
 
@@ -55,5 +55,11 @@ Our broader interdisciplinary manuscript can discuss human–AI collaboration, o
 
 Repository: https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy
 
-Exact notebook URLs, capture methods, configuration, selected receipts, and hashes are in `releases/arc3-2026-final/`. External source/model licenses and public accessibility must be checked before claiming reproduction is complete. Zenodo deposit/DOI and the official Kaggle writeup association remain to be completed and must not be inferred from this draft.
+The corrected public GitHub release is [arc3-2026-final-2](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/releases/tag/arc3-2026-final-2), with immutable source commit `293f1564f373b002c19176beb850ab6dd2548078`. The original release remains in the history.
+
+The corrected archive is published on [Zenodo](https://zenodo.org/records/23869166), version DOI **10.5281/zenodo.23869166**; the all-versions DOI is **10.5281/zenodo.23869165**. Its file is `ARC_AGI3_Public_Release_v2_2026-11-02.zip`, 307,808 bytes, SHA-256 `fd50ac4cebd5ee261902d582e9101c343d61ef878b8ec3aacc44c0fb11cc51af`. This is a published software/evidence deposit, not a peer-reviewed article or an official Kaggle writeup submission.
+
+The Human Director's pre-deadline screenshot records two selected ARC3 candidates: October K0 **3.32** and historical K2 Version 2 **3.10**. K2 was verified public. On 3 November, the K0 publication lock had lifted; its sharing setting was saved and then independently reopened to verify **Public**. Public notebook visibility does not make private external source inputs public or resolve their licensing.
+
+Exact notebook URLs, capture methods, configuration, selected receipts, and hashes are in `releases/arc3-2026-final/`. The external source/model terms and source accessibility limitations above remain. The official Kaggle Solution Writeup posting and team association are a separate step; their completion must not be inferred from the repository draft, release or DOI. The archived release remains the unchanged 2 November snapshot; this live draft records the subsequent publication and visibility status.
 
