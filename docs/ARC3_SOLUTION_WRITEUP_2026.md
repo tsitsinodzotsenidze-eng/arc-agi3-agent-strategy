@@ -1,8 +1,12 @@
 # Recovery, task progress, and execution evidence in ARC-AGI-3
 
-**ARC-AGI-3 technical Solution Writeup — draft, updated 3 November 2026 (Georgia)**
+**Published Kaggle Solution Writeup:** https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3/writeups/recovery-task-progress-and-execution-evidence-in
 
-Author: Tsitsino Dzotsenidze. This is an ARC3-specific technical account. The broader joint ARC-AGI-2/ARC-AGI-3 paper is a separate manuscript. This draft has not been posted as an official Kaggle Solution Writeup.
+**Team association:** https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3/team — the team page displayed “Your team's published Solution Writeup is below” and linked the same writeup. Verified 3 November 2026 UTC.
+
+**ARC-AGI-3 technical Solution Writeup — 3 November 2026**
+
+Author: Tsitsino Dzotsenidze. This is an ARC3-specific technical account. The broader joint ARC-AGI-2/ARC-AGI-3 paper is a separate manuscript.
 
 ## Question and approach
 
@@ -57,9 +61,18 @@ Repository: https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy
 
 The corrected public GitHub release is [arc3-2026-final-2](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/releases/tag/arc3-2026-final-2), with immutable source commit `293f1564f373b002c19176beb850ab6dd2548078`. The original release remains in the history.
 
-The corrected archive is published on [Zenodo](https://zenodo.org/records/23869166), version DOI **10.5281/zenodo.23869166**; the all-versions DOI is **10.5281/zenodo.23869165**. Its file is `ARC_AGI3_Public_Release_v2_2026-11-02.zip`, 307,808 bytes, SHA-256 `fd50ac4cebd5ee261902d582e9101c343d61ef878b8ec3aacc44c0fb11cc51af`. This is a published software/evidence deposit, not a peer-reviewed article or an official Kaggle writeup submission.
+The corrected archive is published on [Zenodo](https://zenodo.org/records/23869166), version DOI **10.5281/zenodo.23869166**; the all-versions DOI is **10.5281/zenodo.23869165**. Its file is `ARC_AGI3_Public_Release_v2_2026-11-02.zip`, 307,808 bytes, SHA-256 `fd50ac4cebd5ee261902d582e9101c343d61ef878b8ec3aacc44c0fb11cc51af`. This published software/evidence deposit supports the present solution writeup and is not a peer-reviewed article.
 
-The Human Director's pre-deadline screenshot records two selected ARC3 candidates: October K0 **3.32** and historical K2 Version 2 **3.10**. K2 was verified public. On 3 November, the K0 publication lock had lifted; its sharing setting was saved and then independently reopened to verify **Public**. Public notebook visibility does not make private external source inputs public or resolve their licensing.
+The pre-deadline selection record contains two selected ARC3 candidates: October K0 **3.32** and historical K2 Version 2 **3.10**. K2 was verified public. On 3 November, the K0 publication lock had lifted; its sharing setting was saved and then independently reopened to verify **Public**. Public notebook visibility does not make private external source inputs public or resolve their licensing.
 
-Exact notebook URLs, capture methods, configuration, selected receipts, and hashes are in `releases/arc3-2026-final/`. The external source/model terms and source accessibility limitations above remain. The official Kaggle Solution Writeup posting and team association are a separate step; their completion must not be inferred from the repository draft, release or DOI. The archived release remains the unchanged 2 November snapshot; this live draft records the subsequent publication and visibility status.
+Exact notebook URLs, capture methods, configuration, selected receipts, and hashes are in `releases/arc3-2026-final/`. The external source/model terms and source accessibility limitations above remain. The archived release remains the unchanged 2 November snapshot; this writeup records the subsequent publication and visibility status.
 
+
+### Selected submission notebooks
+
+- [K0, recovery OFF — saved Version 1, public score 3.32](https://www.kaggle.com/code/tsitsinodzotsenidze/rsii-k0-submission-2?scriptVersionId=362927490)
+- [Historical K2 — saved Version 2, public score 3.10](https://www.kaggle.com/code/tsitsinodzotsenidze/notebook43f8579dd8?scriptVersionId=353983921)
+
+### Attribution and scope
+
+Upstream components retain their original attribution and terms; the source lineage and distribution boundaries are documented in [THIRD_PARTY_NOTICES.md](https://github.com/tsitsinodzotsenidze-eng/arc-agi3-agent-strategy/blob/293f1564f373b002c19176beb850ab6dd2548078/releases/arc3-2026-final/THIRD_PARTY_NOTICES.md). The recovery and carrier work does not imply authorship of the underlying model or all upstream solver components.

@@ -1,0 +1,35 @@
+{
+  "artifact": "ARC-AGI-3 official Kaggle Solution Writeup",
+  "title": "Recovery, task progress, and execution evidence in ARC-AGI-3",
+  "author": "Tsitsino Dzotsenidze",
+  "writeup_url": "https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3/writeups/recovery-task-progress-and-execution-evidence-in",
+  "team_url": "https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3/team",
+  "status": "published_and_team_association_verified",
+  "observed_at_utc": "2026-11-03T01:06:56.921153+00:00",
+  "exact_server_publication_timestamp": null,
+  "kaggle_displayed_date": "Nov 2, 2026",
+  "publication_confirmation": "Your Writeup is published!",
+  "team_confirmation": "Your team's published Solution Writeup is below",
+  "team_link_target": "https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3/writeups/recovery-task-progress-and-execution-evidence-in",
+  "method": "Created through the team page's Create Solution Writeup form, saved as draft, previewed, published, then verified from a newly loaded team page.",
+  "posted_markdown_body_sha256": "fff01dfa6823a2c4e474cbe4aa75c05605ac16dc4a71a8844e9005a5f3c821d6",
+  "repository_mirror": "docs/ARC3_SOLUTION_WRITEUP_2026.md",
+  "mirror_note": "Mirror adds the document title and published/team-status preface before the posted Markdown body.",
+  "pre_publication_source_blob": "f44a780f1897a6652e079abd018dd48aa9ca82ed",
+  "source_release_unchanged": true,
+  "zenodo_deposit_files_unchanged": true,
+  "competition_submissions_unchanged": true,
+  "competition_final_selections_unchanged": true,
+  "session_screenshot_receipts": [
+    {
+      "filename": "kaggle_writeup_published_20261103.jpg",
+      "bytes": 142975,
+      "sha256": "b938aaa5a8ea9f13ec1509239b6e9fadc80cdcbb56bc0428e6147ec60706d323"
+    },
+    {
+      "filename": "kaggle_writeup_team_linked_detail_20261103.jpg",
+      "bytes": 83995,
+      "sha256": "cc51331549f36274f2bcb96fceb4636c488cae7e88aad6c3b502a8def05949ee"
+    }
+  ]
+}

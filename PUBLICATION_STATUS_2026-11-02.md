@@ -28,9 +28,14 @@ K2: https://www.kaggle.com/code/tsitsinodzotsenidze/notebook43f8579dd8?scriptVer
 
 Final private scores remain unknown. These are recorded rounded public scores, not a causal estimate.
 
-## Remaining writeup and access distinctions
+## Published Kaggle writeup and access distinctions
 
-The technical draft is `docs/ARC3_SOLUTION_WRITEUP_2026.md`. Official Kaggle Solution Writeup posting and team association are separate from the repository release and Zenodo deposit; neither is certified complete by this status record. The combined ARC2/ARC3 research manuscript is separate.
+The official technical Solution Writeup was published on Kaggle on 3 November 2026 UTC (Kaggle displayed the local date 2 November):
+https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3/writeups/recovery-task-progress-and-execution-evidence-in
+
+The page explicitly displayed **“Your Writeup is published!”**. The [team page](https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3/team) then displayed **“Your team's published Solution Writeup is below”** and linked this same writeup. Creation through the team's Create Solution Writeup form established the association; no separate final-selection or team-name change was made.
+
+The repository mirror is `docs/ARC3_SOLUTION_WRITEUP_2026.md`; the publication observation receipt is `docs/KAGGLE_WRITEUP_PUBLICATION_2026-11-03.json`. The existing published GitHub release and Zenodo ZIP remain unchanged historical snapshots. The combined ARC2/ARC3 research manuscript is separate.
 
 The reconstruction test reproduced all 201,145 original K1 captured-source bytes without execution. At the recorded source-input observation, the external exact SQLite dataset was Version 1, Private, License: Unknown. It is excluded and not relicensed. Publishing a notebook does not change that dataset's permissions or terms; this is not a fully public runnable environment. See `docs/ARC3_DISTRIBUTION_CORRECTION_2026-11-02.md` and `releases/arc3-2026-final/THIRD_PARTY_NOTICES.md`.
 
