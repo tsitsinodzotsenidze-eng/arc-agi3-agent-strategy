@@ -1,0 +1,17 @@
+{
+  "observed_at_utc": "2026-11-03T01:45:17.850Z",
+  "source": "Authenticated Kaggle ARC-AGI-3 Submission Details; title, public score and notebook version link observed for each entry",
+  "versions": {
+    "historicalK0": {
+      "score": 2.6,
+      "scriptVersionId": 354164947,
+      "url": "https://www.kaggle.com/code/tsitsinodzotsenidze/notebook43f8579dd8?scriptVersionId=354164947"
+    },
+    "earlierK2": {
+      "score": 2.49,
+      "scriptVersionId": 351688674,
+      "url": "https://www.kaggle.com/code/tsitsinodzotsenidze/notebook502686228c?scriptVersionId=351688674"
+    }
+  },
+  "only_two_table_cells_changed": true
+}

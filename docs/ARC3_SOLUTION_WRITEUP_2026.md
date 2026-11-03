@@ -31,8 +31,8 @@ The signed-in Kaggle Submissions page displayed these successful public scores a
 | Historical K2, Version 2 | **3.10** | 353983921 |
 | V11 baseline, Version 1 | **3.07** | 350894675 |
 | October K1+VIR | **2.61** | 362929164 |
-| Historical K0 hidden twin | **2.60** | Not recovered in this packaging pass |
-| Earlier V12-A K2 | **2.49** | Not recovered in this packaging pass |
+| Historical K0 hidden twin | **2.60** | 354164947 |
+| Earlier V12-A K2 | **2.49** | 351688674 |
 
 These are displayed rounded public leaderboard scores, not final private leaderboard outcomes. An earlier K0 attempt showed `Kaggle Error`; an unchanged Version 1 retry subsequently succeeded. That infrastructure outcome is retained separately and is not assigned a gameplay score of zero.
 

@@ -43,7 +43,19 @@
         "bytes": 122912,
         "sha256": "df0f218d7b6b382b82477be793155537dd7ea9314b52cfc3710f8856cdf7ffa8"
       }
+    },
+    {
+      "observed_at_utc": "2026-11-03T01:45:17.850Z",
+      "change": "Replaced the two internal packaging placeholders in the results table with script version IDs verified in Kaggle Submission Details: historical K0 354164947 and earlier K2 351688674. Only those two table cells changed.",
+      "posted_markdown_body_sha256": "53ba27f9448fe943b36850e03c7bec0f07242a7e40a26eef4e20e4ad4716c3a2",
+      "publish_confirmation": "Your Writeup has been published.",
+      "screenshot": {
+        "filename": "kaggle_writeup_verified_table_20261103.jpg",
+        "bytes": 162996,
+        "sha256": "022995ff7bfed852cddb09304a3d0de3c7719cf40a50dd3297acbebb8aa20aeb"
+      },
+      "verification_record": "docs/HISTORICAL_VERSION_VERIFICATION_2026-11-03.json"
     }
   ],
-  "latest_posted_markdown_body_sha256": "dab46f0202423b4c95d16f312687b665a342886420845282031cf0d01a1395c0"
+  "latest_posted_markdown_body_sha256": "53ba27f9448fe943b36850e03c7bec0f07242a7e40a26eef4e20e4ad4716c3a2"
 }
