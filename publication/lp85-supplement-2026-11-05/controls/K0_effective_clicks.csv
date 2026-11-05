@@ -1,0 +1,5 @@
+row,col,K0_action_count,nearest_K2_Chebyshev_px,nearest_K2_Euclidean_px,K2_exact_count
+6,15,2,3,3.0,0
+15,25,1,4,4.0,0
+15,36,10,2,2.0,0
+25,15,5,4,4.0,0

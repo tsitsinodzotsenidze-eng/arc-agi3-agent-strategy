@@ -1,0 +1,19 @@
+{
+  "author": "Tsitsino Dzotsenidze",
+  "orcid": "0000-0002-9432-1803",
+  "authorization_date": "2026-11-05",
+  "authorization_status": "Explicit author approval of the selected LP85 GitHub publication",
+  "repository": "tsitsinodzotsenidze-eng/arc-agi3-agent-strategy",
+  "directory": "publication/lp85-supplement-2026-11-05",
+  "scope": "Selected LP85 supplement files from the final reviewed package, with publication-status and manifest updates only",
+  "method_license": "MIT-0 for the author-owned methodological prose and pseudocode in AUTHOR_LICENSE_APPROVAL.json only",
+  "third_party_rights": "Unchanged; no expanded or blanket third-party/benchmark license is asserted",
+  "privacy_scope": "No private source paths, credentials, model conversations/reasoning, source SQLite, hidden evaluation data, raw full frames, model weights or upstream solver bodies",
+  "excluded_actions": [
+    "Repository visibility changes",
+    "Zenodo DOI or archive changes",
+    "Scientific-result changes",
+    "Main manuscript publication or Kaggle submission"
+  ],
+  "source_package": "ARC_Paper_v21a_and_LP85_MIT0.zip"
+}

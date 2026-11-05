@@ -1,0 +1,25 @@
+{
+  "author": "Tsitsino Dzotsenidze",
+  "orcid": "0000-0002-9432-1803",
+  "approval_date": "2026-11-05",
+  "license_identifier": "MIT-0",
+  "license_reference": "https://spdx.org/licenses/MIT-0.html",
+  "approval_status": "Explicit author approval recorded",
+  "licensed_contribution": "Independently authored methodological prose and pseudocode only",
+  "scope_files": [
+    "README.md",
+    "METHOD.md",
+    "results/RESULTS_SCHEMA.md",
+    "results/tool_boundaries_SCHEMA.md"
+  ],
+  "scope_limit": "Only the author-owned prose and pseudocode in the listed files; quoted third-party material and underlying observations retain their own status.",
+  "excluded_from_this_grant": [
+    "All CSV data and benchmark-derived observations, coordinates, pixels, digests and receipts",
+    "provenance.json and the rights of underlying benchmark/game/agent providers",
+    "The main ARC paper manuscript and its Word version",
+    "Existing ARC2 and ARC3 repository/archive licenses and version DOIs"
+  ],
+  "public_release_authorized_by_this_record": false,
+  "public_release_status": "This record documents the earlier method-license decision only; separate GitHub publication approval is recorded in PUBLICATION_AUTHORIZATION.json.",
+  "separate_publication_authorization": "PUBLICATION_AUTHORIZATION.json"
+}

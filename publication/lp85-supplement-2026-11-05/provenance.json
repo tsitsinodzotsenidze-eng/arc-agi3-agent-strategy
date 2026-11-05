@@ -1,0 +1,146 @@
+{
+  "research_title": "ARC-AGI-3 LP85 selected-case control and progress diagnostic",
+  "date_original_diagnostic": "2026-10-21",
+  "supplement_status": "AUTHOR-AUTHORIZED PUBLIC GITHUB SUPPLEMENT; method MIT-0 scope and third-party rights unchanged",
+  "selection": "Six purposively selected game-arm traces (not a random sample)",
+  "trace_source": "bounded diagnostic_inputs.json cache in retained LP85 2026-10-21 package",
+  "original_runs": {
+    "K0": {
+      "run_benchmark_start_utc": "2026-10-18T18:27:37.647667+00:00",
+      "source_archive_basename": "Unconfirmed 541767.crdownload",
+      "size_bytes": 118318390,
+      "prior_verified_sha256": "0208c980c8c28b34c130c331e81a9fd4a594bfdb581245fb0314b750c01cf9b8",
+      "sha_verification_repeated_for_supplement": false
+    },
+    "K2": {
+      "run_benchmark_start_utc": "2026-10-19T17:30:08.669059+00:00",
+      "source_archive_basename": "study2-gameplay-evidence (1).tar.gz",
+      "size_bytes": 121169152,
+      "prior_verified_sha256": "d7d835c47159bdb74ce5f9a73a0da297311eb46498614a268476c351398ff576",
+      "sha_verification_repeated_for_supplement": false
+    }
+  },
+  "traces": {
+    "K0_lp85": {
+      "game_id": "lp85-305b61c3",
+      "action_count": 160,
+      "start_elapsed_s": 0.379572,
+      "derived_trace_start_utc": "2026-10-18T18:27:38.027239Z",
+      "end_elapsed_s": 11530.487572,
+      "file": "traces/K0_lp85.csv",
+      "native_level_completion_flag_count": 7,
+      "retained_completion_record_count": 8,
+      "terminal_WIN_observed": true,
+      "terminal_WIN_action_ordinal": 160,
+      "terminal_WIN_native_completion_flag": false
+    },
+    "K2_lp85": {
+      "game_id": "lp85-305b61c3",
+      "action_count": 1012,
+      "start_elapsed_s": 0.344967,
+      "derived_trace_start_utc": "2026-10-19T17:30:09.014026Z",
+      "end_elapsed_s": 14390.771967,
+      "file": "traces/K2_lp85.csv",
+      "native_level_completion_flag_count": 3,
+      "retained_completion_record_count": 3,
+      "terminal_WIN_observed": false,
+      "terminal_WIN_action_ordinal": null,
+      "terminal_WIN_native_completion_flag": null
+    },
+    "K0_ft09": {
+      "game_id": "ft09-0d8bbf25",
+      "action_count": 195,
+      "start_elapsed_s": 0.62524,
+      "derived_trace_start_utc": "2026-10-18T18:27:38.272907Z",
+      "end_elapsed_s": 14394.81324,
+      "file": "traces/K0_ft09.csv",
+      "native_level_completion_flag_count": 4,
+      "retained_completion_record_count": 4,
+      "terminal_WIN_observed": false,
+      "terminal_WIN_action_ordinal": null,
+      "terminal_WIN_native_completion_flag": null
+    },
+    "K2_ft09": {
+      "game_id": "ft09-0d8bbf25",
+      "action_count": 101,
+      "start_elapsed_s": 0.594709,
+      "derived_trace_start_utc": "2026-10-19T17:30:09.263768Z",
+      "end_elapsed_s": 8112.539709,
+      "file": "traces/K2_ft09.csv",
+      "native_level_completion_flag_count": 5,
+      "retained_completion_record_count": 6,
+      "terminal_WIN_observed": true,
+      "terminal_WIN_action_ordinal": 101,
+      "terminal_WIN_native_completion_flag": false
+    },
+    "K2_sp80": {
+      "game_id": "sp80-589a99af",
+      "action_count": 565,
+      "start_elapsed_s": 0.407675,
+      "derived_trace_start_utc": "2026-10-19T17:30:09.076734Z",
+      "end_elapsed_s": 14390.893675000001,
+      "file": "traces/K2_sp80.csv",
+      "native_level_completion_flag_count": 1,
+      "retained_completion_record_count": 1,
+      "terminal_WIN_observed": false,
+      "terminal_WIN_action_ordinal": null,
+      "terminal_WIN_native_completion_flag": null
+    },
+    "K2_tn36": {
+      "game_id": "tn36-ef4dde99",
+      "action_count": 1251,
+      "start_elapsed_s": 0.224234,
+      "derived_trace_start_utc": "2026-10-19T17:30:08.893293Z",
+      "end_elapsed_s": 14390.803233999999,
+      "file": "traces/K2_tn36.csv",
+      "native_level_completion_flag_count": 0,
+      "retained_completion_record_count": 0,
+      "terminal_WIN_observed": false,
+      "terminal_WIN_action_ordinal": null,
+      "terminal_WIN_native_completion_flag": null
+    }
+  },
+  "inherited_digests": {
+    "analysis_sha256": "6bf23892a14eac460808c2f8aad66d932822fe52d8dc48e821c68c392ba52b0b",
+    "selected_frames_sha256": "81522b0acd0c6fe65b28c1568f77b7a342c2cef0ee1fbb5a0b0b0fb7c8c94d95",
+    "original_archives_modified": false,
+    "selection": "six purposive game-arm traces; not a random sample"
+  },
+  "time_definition": "elapsed_seconds = retained benchmark-relative elapsed time; trace_start_utc is a computed alignment using retained benchmark_start + start_elapsed_s, not a newly observed timestamp.",
+  "coordinates": "zero-based (row, column), rows 0..63, columns 0..63; bounding box endpoints inclusive",
+  "reserved_omissions": [
+    "model conversation and reasoning",
+    "raw telemetry JSON",
+    "full game archives",
+    "private source paths",
+    "private SQLite",
+    "full native frames",
+    "upstream solver bodies"
+  ],
+  "derived_spatial_summary": {
+    "K0_level4_actions": 18,
+    "K2_level4_actions": 962,
+    "K2_unique_coordinates": 252,
+    "glyph_pixel_count": 160,
+    "candidate_glyph_count": 16,
+    "candidate_bbox_union_pixel_count": 192,
+    "K2_any_candidate_glyph_actions": 0,
+    "K2_any_candidate_bbox_actions": 0
+  },
+  "candidate_prepared_date": "2026-11-05",
+  "completion_count_definitions": {
+    "native_level_completion_flag_count": "Count of action CSV rows where native_level_completed is true; excludes native WIN if its per-action completion flag is false.",
+    "retained_completion_record_count": "Historical source-cache completion-record count; may include a terminal WIN record without native_level_completed=true.",
+    "terminal_WIN_observed": "Whether a retained final action recorded native_state=WIN with done=true and run_complete=true.",
+    "terminal_WIN_action_ordinal": "Cumulative action ordinal of that terminal WIN, or null otherwise."
+  },
+  "clock_alignment_note": "Retained action and analyzer-entry timelines are not strictly aligned at subsecond precision. Ordering is established by action cursors, native completion flags, callback/tool membership; not by timestamp subtraction or estimated dispatch latency.",
+  "author_method_license": {
+    "identifier": "MIT-0",
+    "approved_date": "2026-11-05",
+    "scope_record": "AUTHOR_LICENSE_APPROVAL.json",
+    "scope": "Author-owned methodological prose and pseudocode only; excludes all CSV data and third-party material"
+  },
+  "publication_authorization": "PUBLICATION_AUTHORIZATION.json",
+  "publication_directory": "publication/lp85-supplement-2026-11-05"
+}

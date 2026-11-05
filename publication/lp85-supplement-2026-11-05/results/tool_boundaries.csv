@@ -1,0 +1,3 @@
+trace,prefix_action,callback_first_action,callback_last_action,python_tool_first_action,python_tool_last_action,next_analyzer_actions_completed,next_analyzer_benchmark_elapsed_s,native_completion_before_tool_return,full_grid_unchanged_through_tool_return,nonterminal_at_tool_return
+K2_lp85,70,70,70,66,77,77,5724.989967,False,True,True
+K2_sp80,50,46,55,46,55,55,1762.387675,True,,
